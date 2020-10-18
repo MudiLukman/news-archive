@@ -1,0 +1,54 @@
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-opacity: 0;
+}
+
+.tab-pane
+{
+    -fx-tab-min-width:90px;
+}
+
+.tab{
+    -fx-background-insets: 0 1 0 1,0,0;
+}
+.tab-pane .tab
+{
+    -fx-background-color: #e6e6e6;
+
+}
+
+.tab-pane .tab:selected
+{
+    -fx-background-color: #3c3c3c;
+}
+
+.tab .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: #828282;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.tab:selected .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: #96b946;
+}
+
+.chart-pie-label-line {
+    -fx-stroke: #faf8f7;
+    -fx-fill: #faf8f7;
+}
+
+.chart-pie-label { /*this is what you need for labels*/
+    -fx-fill: #faf8f7;
+    -fx-font-size: 1em;
+}
+
+.chart-legend {
+   -fx-background-color:  #faf8f7;
+   -fx-stroke: #daa520;
+}
+
+.chart-title {
+   -fx-text-fill:  #faf8f7;
+   -fx-font-size: 2em;
+}
