@@ -266,7 +266,6 @@ public class ExtractNewsPresenter {
             unTraversedLinks.add(link);
         }
 
-        //remove old urls
         unTraversedLinks.removeAll(oldUrls);
 
         System.out.println("Total number of traversable links from @ " + startAddress + " : " + unTraversedLinks.size());
@@ -274,7 +273,6 @@ public class ExtractNewsPresenter {
         System.out.println("Archive: Total number of links: " + unTraversedLinks.size() + " @ " + startAddress);
         System.out.println("Archive: Total Number of traverseable Links: " + unTraversedLinks.size());
 
-        //check page content to determine relevance
         org.jsoup.nodes.Document newsContent = null;
         for(int l = 0; l < unTraversedLinks.size(); l++){
             if(threadPool == null){
