@@ -1,1 +1,1 @@
-"# A java based news extraction and archival system with search engine" 
+"# A news extraction and archival system with JavaFX as the frontend" 
