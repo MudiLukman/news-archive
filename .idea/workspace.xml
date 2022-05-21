@@ -27,7 +27,12 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9d7d9937-4fd2-41e3-8361-cc6a1a1c0941" name="Default" comment="" />
+    <list default="true" id="9d7d9937-4fd2-41e3-8361-cc6a1a1c0941" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/beans.xml" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -36,6 +41,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="cdi.beans_3_0" />
         <option value="Class" />
       </list>
     </option>
@@ -181,12 +187,13 @@
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../good-old-elasticsearch-client" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="Errors" />
@@ -203,7 +210,7 @@
       <recent name="C:\Users\USER\IdeaProjects\newsarchive\src\main\resources\style" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Launcher">
+  <component name="RunManager">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="HTML_USED" value="false" />
       <option name="WIDTH" value="400" />
@@ -211,29 +218,25 @@
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <module />
     </configuration>
-    <configuration name="AutomaticExtractionScheduler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.kontrol.newsarchive.util.AutomaticExtractionScheduler" />
-      <module name="newsarchive" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.kontrol.newsarchive.util.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="Launcher" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.kontrol.newsarchive.Launcher" />
       <module name="newsarchive" />
-      <option name="VM_PARAMETERS" value="-p &quot;C:\Program Files\Java\javafx-sdk-11.0.2\lib&quot; --add-modules javafx.controls" />
+      <option name="VM_PARAMETERS" value="-p &quot;C:\Program Files\Java\javafx-sdk-11.0.2\lib&quot; --add-modules javafx.controls --add-exports=javafx.graphics/com.sun.javafx.stage=ALL-UNNAMED --add-exports=javafx.base/com.sun.javafx=ALL-UNNAMED --add-exports=javafx.controls/com.sun.javafx.scene.control.behavior=ALL-UNNAMED " />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.kontrol.newsarchive.*" />
           <option name="ENABLED" value="true" />
         </pattern>
+      </extension>
+      <extension name="net.ashald.envfile">
+        <option name="IS_ENABLED" value="false" />
+        <option name="IS_SUBST" value="false" />
+        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+        <option name="IS_IGNORE_MISSING_FILES" value="false" />
+        <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
+        <ENTRIES>
+          <ENTRY IS_ENABLED="true" PARSER="runconfig" />
+        </ENTRIES>
       </extension>
       <method v="2">
         <option name="Make" enabled="true" />
@@ -270,14 +273,9 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <list>
-      <item itemvalue="Application.AutomaticExtractionScheduler" />
-      <item itemvalue="Application.Launcher" />
-    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Launcher" />
-        <item itemvalue="Application.AutomaticExtractionScheduler" />
       </list>
     </recent_temporary>
   </component>
@@ -295,6 +293,11 @@
       <workItem from="1606289137622" duration="549000" />
       <workItem from="1606489322108" duration="31000" />
       <workItem from="1636841925144" duration="203000" />
+      <workItem from="1653034226023" duration="5560000" />
+      <workItem from="1653041295126" duration="2672000" />
+      <workItem from="1653059711853" duration="2783000" />
+      <workItem from="1653069799794" duration="2740000" />
+      <workItem from="1653132969399" duration="15704000" />
     </task>
     <servers />
   </component>
@@ -324,31 +327,5 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1605218322925">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.680@0.0.1280.680" timestamp="1605218322925" />
-    <state x="348" y="81" key="FileChooserDialogImpl" timestamp="1605218898168">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="348" y="81" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1605218898168" />
-    <state x="171" y="0" key="Maven.ArtifactSearchDialog" timestamp="1605219260468">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="171" y="0" key="Maven.ArtifactSearchDialog/0.0.1280.680@0.0.1280.680" timestamp="1605219260468" />
-    <state x="121" y="0" key="SettingsEditor" timestamp="1605235795034">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="121" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1605235795034" />
-    <state x="375" y="232" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1605235792497">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="375" y="232" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1280.680@0.0.1280.680" timestamp="1605235792497" />
-    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup" timestamp="1605256454280">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1605256454280" />
   </component>
 </project>

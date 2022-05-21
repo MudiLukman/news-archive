@@ -90,7 +90,7 @@ public class SettingsPresenter {
 
         for(Object n : getView().getNewswireChipView().getChips()){
             String newswire = (String) n;
-            String sql = "INSERT INTO newswire(url) VALUES (" + "'" + n + "');";
+            String sql = "INSERT INTO newswire(url) VALUES (" + "'" + newswire + "');";
             DatabaseHelper.insert_record(sql);
         }
         AlertMaker.showNotification("Success", "Keywords updated Successfully", AlertMaker.image_checked);

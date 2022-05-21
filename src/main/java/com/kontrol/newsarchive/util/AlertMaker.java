@@ -17,10 +17,9 @@ import java.io.StringWriter;
 public class AlertMaker {
     public static final Image image_checked = new Image(AlertMaker.class.getResource("/checked.png").toExternalForm());
     public static final Image image_cross = new Image(AlertMaker.class.getResource("/cross.png").toExternalForm());
-    public static final Image image_download = new Image(AlertMaker.class.getResource("/download.png").toExternalForm());
     public static final Image image_warning = new Image(AlertMaker.class.getResource("/warning.png").toExternalForm());
-    public static final Image image_warning2 = new Image(AlertMaker.class.getResource("/warning2.png").toExternalForm());
     public static final Image image_movie_forbidden = new Image(AlertMaker.class.getResource("/forbidden.png").toExternalForm());
+
     public static void showSimpleAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
@@ -28,6 +27,7 @@ public class AlertMaker {
         alert.setContentText(content);
         alert.showAndWait();
     }
+
     public static void showWarning(Exception ex) {
         Image img = image_movie_forbidden;
         Notifications notify = Notifications.create()
@@ -39,8 +39,8 @@ public class AlertMaker {
                 .hideAfter(Duration.seconds(5));
         notify.show();
     }
-    public static void showWarning(String Title, String Message, Exception ex)
-    {
+
+    public static void showWarning(String Title, String Message, Exception ex) {
         Image img = image_movie_forbidden;
         Notifications notify = Notifications.create()
                 .darkStyle()
@@ -51,6 +51,7 @@ public class AlertMaker {
                 .hideAfter(Duration.seconds(5));
         notify.show();
     }
+
     public static void showErrorMessage(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
@@ -119,8 +120,8 @@ public class AlertMaker {
         alert.getDialogPane().setExpandableContent(expContent);
         alert.showAndWait();
     }
-    public static void showNotification(String Title, String Message, Image img)
-    {
+
+    public static void showNotification(String Title, String Message, Image img) {
         Notifications notify = Notifications.create()
                 .darkStyle()
                 .graphic(new ImageView(img))

@@ -8,7 +8,6 @@ import com.kontrol.newsarchive.view.ProfileView;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -23,19 +22,13 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-/**
- * Hello world!
- *
- */
 public class Launcher extends Application{
 
     private static ResultSet resultSet;
     private static ExecutorService executor;
 
     private static class RootAdminFetcherTask implements Runnable{
-
         private CountDownLatch latch;
-
         RootAdminFetcherTask(CountDownLatch latch){
             this.latch = latch;
         }
@@ -106,12 +99,10 @@ public class Launcher extends Application{
     }
 
     public static void switchWindow(Pane from, Pane to, int width, int height){
-
         Scene scene = new Scene(to);
         scene.setFill(Color.TRANSPARENT);
         Stage stage = (Stage) from.getScene().getWindow();
         stage.setOnCloseRequest(Launcher::onWindowCloseRequest);
-        Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
         stage.setMinHeight(Screen.getPrimary().getVisualBounds().getHeight());
         stage.setMinWidth(Screen.getPrimary().getVisualBounds().getWidth() / 2);
         stage.setWidth(width);
@@ -121,7 +112,6 @@ public class Launcher extends Application{
     }
 
     public static void onWindowCloseRequest(WindowEvent event){
-
         HBox buttonsHBox = new HBox(10);
         buttonsHBox.setAlignment(Pos.CENTER_RIGHT);
         JFXButton ok = new JFXButton("Ok");

@@ -25,9 +25,16 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TodaysNewsPresenter {
 
+    private Executor executor = Executors.newCachedThreadPool();
+    private Logger logger = Logger.getLogger(TodaysNewsPresenter.class.getName());
     private TodaysNewsView view;
     private String aggregatorUrl = "";
     private List<String> unTraversedLinks;
@@ -42,9 +49,12 @@ public class TodaysNewsPresenter {
         relevantLinks = new ArrayList<>();
         traversedLinks = new ArrayList<>();
         listOfTodaysNews = new ArrayList<>();
-        Thread fetchTodayNewsThread = new Thread(this::fetchNewsFromWeb);
-        fetchTodayNewsThread.setPriority(Thread.MAX_PRIORITY);
-        fetchTodayNewsThread.start();
+        CompletableFuture<Void> newsHighlightsFuture = CompletableFuture.runAsync(this::fetchNewsFromWeb, executor);
+        newsHighlightsFuture.whenComplete((result, ex) -> {
+            if (ex != null) {
+                logger.log(Level.SEVERE, "Error while fetching daily highlights {}", ex.getMessage());
+            }
+        });
     }
 
     private void fetchNewsFromWeb() {
@@ -52,7 +62,7 @@ public class TodaysNewsPresenter {
         try {
             doc = Jsoup.connect(aggregatorUrl).timeout(30 * 1000).get();
             unTraversedLinks.add(aggregatorUrl);
-            System.out.println("Connected to " + aggregatorUrl);
+            logger.info("Connected to " + aggregatorUrl);
         }
         catch (IllegalArgumentException e){
             Platform.runLater(()-> {
@@ -86,18 +96,10 @@ public class TodaysNewsPresenter {
             Document nextLink = null;
             try {
                 nextLink = Jsoup.connect(link).timeout(30 * 1000).get();
-                System.out.println("Connected to " + i + " of " + unTraversedLinks.size() + ": inner-link:" + link);
+                logger.info("Connected to " + i + " of " + unTraversedLinks.size() + ": inner-link:" + link);
             }
-            catch (IllegalArgumentException e){
-                System.out.println("Inner-link: " + link + " is not a valid URL");
-                continue;
-            }
-            catch (UnknownHostException e){
-                System.out.println();
-                continue;
-            }
-            catch (IOException e) {
-                System.out.println("Could not connect to inner-link: " + link);
+            catch (IllegalArgumentException | IOException ex) {
+                logger.log(Level.SEVERE, String.format("Could not connect to inner-link: %s error: %s", link, ex.getMessage()));
                 continue;
             }
             unTraversedLinks.addAll(getSubLinks(nextLink));
@@ -106,9 +108,9 @@ public class TodaysNewsPresenter {
         relevantLinks.addAll(unTraversedLinks);
         unTraversedLinks.clear();
 
-        relevantLinks.removeIf((link)-> link.contains(aggregatorUrl));
+        relevantLinks.removeIf(link -> link.contains(aggregatorUrl));
 
-        System.out.println("Total Number of relevant Links: " + relevantLinks.size());
+        logger.info("Total Number of relevant Links: " + relevantLinks.size());
 
         //check page content to determine relevance
         Document newsContent = null;
@@ -120,16 +122,8 @@ public class TodaysNewsPresenter {
             }
             try {
                 newsContent = Jsoup.connect(newsUrl).timeout(15 * 1000).get();
-            }
-            catch (IllegalArgumentException e){
-                continue;
-            }
-            catch (UnknownHostException e){
-                System.out.println("Unable to get document from: " + newsUrl);
-                continue;
-            }
-            catch (IOException e) {
-                System.out.println("Connection timed-out: " + newsUrl);
+            } catch (IllegalArgumentException | IOException ex) {
+                logger.log(Level.SEVERE, String.format("Connection timed-out: %s error: %s", newsUrl, ex.getMessage()));
                 continue;
             }
             finally {
@@ -145,14 +139,14 @@ public class TodaysNewsPresenter {
             if(!listOfTodaysNews.contains(relevantNews)){
                 listOfTodaysNews.add(relevantNews);
                 createNodeAndDisplayOnScreen(relevantNews);
-                System.out.println("Found " + listOfTodaysNews.size() + " today's news");
+                logger.info("Found " + listOfTodaysNews.size() + " today's news");
             }
 
-            System.out.println("Walked through " + l + " of " + relevantLinks.size() + ": " + newsUrl);
+            logger.info("Walked through " + l + " of " + relevantLinks.size() + ": " + newsUrl);
         }
 
-        System.out.println("Total Number of unique links: " + relevantLinks.size());
-        System.out.println("Total number Of Today's news: " + listOfTodaysNews.size());
+        logger.info("Total Number of unique links: " + relevantLinks.size());
+        logger.info("Total number Of Today's news: " + listOfTodaysNews.size());
 
         Platform.runLater(()-> {
             getView().getProgressIndicator().setVisible(false);
