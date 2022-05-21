@@ -1,11 +1,9 @@
 
-# News Archive    [![Badge License]][License]
+# News Archive    [![Badge License]][License]  [![Badge FrontEnd]][JavaFX]
 
 *A news extraction & archival program.*
 
 <br>
-
-"# A news extraction and archival system with JavaFX as the frontend"
 
 <div align = center>
 
@@ -37,6 +35,9 @@ around breaking changes ( Modules ).
 <!----------------------------------------------------------------------------->
 
 [Badge License]: https://img.shields.io/badge/License-Unknown-808080.svg?style=for-the-badge
+[Badge FrontEnd]: https://img.shields.io/badge/FrontEnd-JavaFX-007396.svg?style=for-the-badge
 [Note]: https://img.shields.io/badge/Note-red?style=for-the-badge
+
+[JavaFX]: https://openjfx.io/
 
 [License]: #
