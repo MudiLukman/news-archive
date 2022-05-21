@@ -1,5 +1,10 @@
 package com.kontrol.newsarchive.presenter;
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.query_dsl.QueryBuilders;
+import co.elastic.clients.elasticsearch.core.DeleteRequest;
+import co.elastic.clients.elasticsearch.core.SearchRequest;
+import co.elastic.clients.elasticsearch.core.SearchResponse;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.effects.JFXDepthManager;
 import com.kontrol.newsarchive.Launcher;
@@ -21,19 +26,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import org.elasticsearch.action.delete.DeleteRequest;
-import org.elasticsearch.action.delete.DeleteResponse;
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.common.unit.Fuzziness;
-import org.elasticsearch.common.unit.TimeValue;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.SearchHits;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
-
+import org.elasticsearch.client.RequestOptions;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -41,25 +34,25 @@ import java.util.concurrent.TimeUnit;
 public class SearchResultPresenter {
 
     private SearchResultView view;
-    private RestHighLevelClient client;
+    private ElasticsearchClient client;
     private SearchRequest searchRequest;
     private SearchResponse searchResponse;
-    private SearchHits hits;
+    //private SearchHits hits;
     private long totalHits;
-    private SearchHit[] searchHits;
-    private SearchSourceBuilder sourceBuilder;
+    //private SearchHit[] searchHits;
+    //private SearchSourceBuilder sourceBuilder;
 
     public SearchResultPresenter(String query){
         view = new SearchResultView();
         getView().getContentAreaFlowPane().getChildren().clear();
         client = ElasticClientHelper.getConnection();
-        searchRequest = new SearchRequest();
-        sourceBuilder = new SearchSourceBuilder();
-        sourceBuilder.query(QueryBuilders.multiMatchQuery(query, "title", "body"));
-        searchRequest.source(sourceBuilder);
-        sourceBuilder.from(0);
-        sourceBuilder.size(1000);
-        sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
+        //searchRequest = new SearchRequest();
+        //sourceBuilder = new SearchSourceBuilder();
+        //sourceBuilder.query(QueryBuilders.multiMatchQuery(query, "title", "body"));
+        //searchRequest.source(sourceBuilder);
+        //sourceBuilder.from(0);
+        //sourceBuilder.size(1000);
+        //sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
 
         new Thread(this::performSearch).start();
     }
@@ -68,13 +61,13 @@ public class SearchResultPresenter {
         view = new SearchResultView();
         getView().getContentAreaFlowPane().getChildren().clear();
         client = ElasticClientHelper.getConnection();
-        searchRequest = new SearchRequest();
-        sourceBuilder = new SearchSourceBuilder();
-        sourceBuilder.query(QueryBuilders.matchAllQuery());
-        searchRequest.source(sourceBuilder);
-        sourceBuilder.from(0);
-        sourceBuilder.size(1000);
-        sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
+        //searchRequest = new SearchRequest();
+        //sourceBuilder = new SearchSourceBuilder();
+        //sourceBuilder.query(QueryBuilders.matchAllQuery());
+        //searchRequest.source(sourceBuilder);
+        //sourceBuilder.from(0);
+        //sourceBuilder.size(1000);
+        //sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
 
         new Thread(this::performSearch).start();
     }
@@ -83,7 +76,7 @@ public class SearchResultPresenter {
         view = new SearchResultView();
         getView().getContentAreaFlowPane().getChildren().clear();
         client = ElasticClientHelper.getConnection();
-        searchRequest = new SearchRequest();
+        /*searchRequest = new SearchRequest();
         sourceBuilder = new SearchSourceBuilder();
         QueryBuilder matchQueryBuilder = QueryBuilders
                 .matchQuery(field, query)
@@ -94,13 +87,13 @@ public class SearchResultPresenter {
         searchRequest.source(sourceBuilder);
         sourceBuilder.from(0);
         sourceBuilder.size(1000);
-        sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
+        sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));*/
 
         new Thread(this::performSearch).start();
     }
 
     private void displaySearchResults() {
-        searchHits = hits.getHits();
+        /*searchHits = hits.getHits();
         if(searchHits.length == 0){
             Label noResultLbl = new Label("Oops. No result matched  your query, try something else");
             noResultLbl.setStyle("-fx-font-weight: bold;");
@@ -116,7 +109,7 @@ public class SearchResultPresenter {
             String body = (String) sourceAsMap.get("body");
             String date = (String) sourceAsMap.get("date");
             createNodeAndDisplay(id, title, body, date);
-        }
+        }*/
     }
 
     private void createNodeAndDisplay(String url, String title, String body, String date) {
@@ -155,18 +148,14 @@ public class SearchResultPresenter {
         HBox sourceHBox = new HBox(5, webLogo, urlLbl, spaceBetweenUrlAndDeleteIcon, minusBtn);
         layoutVBox.getChildren().addAll(sourceHBox, titleLbl, bodyLbl, spaceAboveDate, new HBox(spaceBeforeDate, dateLbl));
 
-        layoutVBox.setOnMouseClicked(event -> {
-            new Launcher().getHostServices().showDocument(url);
-        });
+        layoutVBox.setOnMouseClicked(event -> new Launcher().getHostServices().showDocument(url));
 
         minusBtn.setOnMouseClicked(event -> {
             event.consume();
             handleDeleteSearchResultClicked(url);
         });
 
-        Platform.runLater(()-> {
-            getView().getContentAreaFlowPane().getChildren().add(pane);
-        });
+        Platform.runLater(()-> getView().getContentAreaFlowPane().getChildren().add(pane));
     }
 
     private void handleDeleteSearchResultClicked(String id) {
@@ -206,9 +195,7 @@ public class SearchResultPresenter {
             deleteSearchResult(id);
             ok.getScene().getWindow().hide();
         });
-        cancel.setOnAction(event1 -> {
-            cancel.getScene().getWindow().hide();
-        });
+        cancel.setOnAction(event1 -> cancel.getScene().getWindow().hide());
 
     }
 
@@ -223,9 +210,9 @@ public class SearchResultPresenter {
     }
 
     private void obtainSearchResults() {
-        hits = searchResponse.getHits();
-        totalHits = hits.getTotalHits();
-        displaySearchResults();
+        /*hits = searchResponse.getHits();
+        totalHits = hits.getTotalHits().value;
+        displaySearchResults();*/
     }
 
     public SearchResultView getView(){
@@ -233,26 +220,26 @@ public class SearchResultPresenter {
     }
 
     public void performSearch() {
-        try {
-            searchResponse = client.search(searchRequest);
+        /*try {
+            searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
         } catch (IOException e) {
             AlertMaker.showErrorMessage(e);
-        }
+        }*/
         obtainSearchResults();
     }
 
     public void performDelete(String docId){
-        RestHighLevelClient client = ElasticClientHelper.getConnection();
+        /*RestHighLevelClient client = ElasticClientHelper.getConnection();
         DeleteRequest deleteRequest = new DeleteRequest("newscontents", "doc", docId);
         deleteRequest.timeout("2m");
         try {
-            DeleteResponse deleteResponse = client.delete(deleteRequest);
+            DeleteResponse deleteResponse = client.delete(deleteRequest, RequestOptions.DEFAULT);
             removeNodeFromSceneGraph(docId);
         } catch (IOException e) {
             Platform.runLater(()-> {
                 AlertMaker.showErrorMessage(e);
             });
-        }
+        }*/
     }
 
     private void removeNodeFromSceneGraph(String docId) {

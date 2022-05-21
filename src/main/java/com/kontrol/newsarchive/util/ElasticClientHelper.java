@@ -1,26 +1,27 @@
 package com.kontrol.newsarchive.util;
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.json.jackson.JacksonJsonpMapper;
+import co.elastic.clients.transport.ElasticsearchTransport;
+import co.elastic.clients.transport.rest_client.RestClientTransport;
 import org.apache.http.HttpHost;
 import org.elasticsearch.client.RestClient;
-import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.common.settings.Settings;
 
 public class ElasticClientHelper {
 
-    private static RestHighLevelClient client;
-    private static Settings settings;
+    private ElasticClientHelper() {
+        throw new IllegalStateException("Private constructor must not be called");
+    }
 
-    public static RestHighLevelClient getConnection(){
-        settings = Settings.builder().put("cluster.name", "newsarchive")
-                .put("path.home", "/").put("client.transport.ping_timeout", "60s")
+    public static ElasticsearchClient getConnection(){
+        RestClient restClient = RestClient.builder(
+                new HttpHost("localhost", 9200))
                 .build();
 
-        client = new RestHighLevelClient(
-                RestClient.builder(
-                        new HttpHost("localhost", 9200, "http"),
-                        new HttpHost("localhost", 9201, "http")));
+        ElasticsearchTransport transport = new RestClientTransport(
+                restClient, new JacksonJsonpMapper());
 
-        return client;
+        return new ElasticsearchClient(transport);
     }
 
 }

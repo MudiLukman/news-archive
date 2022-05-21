@@ -27,7 +27,125 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9d7d9937-4fd2-41e3-8361-cc6a1a1c0941" name="Default" comment="" />
+    <list default="true" id="9d7d9937-4fd2-41e3-8361-cc6a1a1c0941" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__co_elastic_clients_elasticsearch_java_8_2_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_annotations_2_13_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_13_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_findbugs_jsr305_3_0_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__jakarta_json_jakarta_json_api_2_0_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_13_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_checkerframework_checker_qual_3_5_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_parsson_parsson_1_0_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jsoup_jsoup_1_14_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_postgresql_postgresql_42_3_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/META-INF/beans.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_carrotsearch_hppc_0_7_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_8_10.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_13_3.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_dataformat_jackson_dataformat_cbor_2_8_10.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_dataformat_jackson_dataformat_smile_2_8_10.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_dataformat_jackson_dataformat_yaml_2_8_10.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_tdunning_t_digest_3_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_codec_commons_codec_1_10.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_codec_commons_codec_1_14.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__joda_time_joda_time_2_9_9.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_11.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_sf_jopt_simple_jopt_simple_5_0_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpasyncclient_4_1_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpasyncclient_4_1_4.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpclient_4_5_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpclient_4_5_10.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpcore_4_4_5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpcore_4_4_12.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpcore_nio_4_4_5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpcore_nio_4_4_12.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_logging_log4j_log4j_api_2_9_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_analyzers_common_7_3_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_backward_codecs_7_3_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_core_7_3_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_grouping_7_3_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_highlighter_7_3_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_join_7_3_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_memory_7_3_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_misc_7_3_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_queries_7_3_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_queryparser_7_3_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_sandbox_7_3_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_spatial3d_7_3_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_spatial_7_3_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_spatial_extras_7_3_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_lucene_lucene_suggest_7_3_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_elasticsearch_client_elasticsearch_rest_client_6_3_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_elasticsearch_client_elasticsearch_rest_client_8_2_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_elasticsearch_client_elasticsearch_rest_high_level_client_6_3_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_elasticsearch_elasticsearch_6_3_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_elasticsearch_elasticsearch_cli_6_3_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_elasticsearch_elasticsearch_core_6_3_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_elasticsearch_elasticsearch_secure_sm_6_3_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_elasticsearch_elasticsearch_x_content_6_3_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_elasticsearch_jna_4_5_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_elasticsearch_plugin_aggs_matrix_stats_client_6_3_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_elasticsearch_plugin_parent_join_client_6_3_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_elasticsearch_plugin_rank_eval_client_6_3_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_hdrhistogram_HdrHistogram_2_1_9.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_jsoup_jsoup_1_12_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_controls_win_11_0_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_controls_win_11.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_yaml_snakeyaml_1_17.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/newsarchive.iml" beforeDir="false" afterPath="$PROJECT_DIR$/newsarchive.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/Launcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/Launcher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/ExtractNewsPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/ExtractNewsPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/ProfilePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/ProfilePresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/SearchResultPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/SearchResultPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/SettingsPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/SettingsPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/TodaysNewsPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/TodaysNewsPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/util/AlertMaker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/util/AlertMaker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/util/DatabaseHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/util/DatabaseHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/util/ElasticClientHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/util/ElasticClientHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/App$FirstRunCheckerTask.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/App.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/Launcher$RootAdminFetcherTask.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/Launcher$RootAdminFetcherTask.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/Launcher.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/Launcher.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/model/DeskOfficer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/model/DeskOfficer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/model/Document.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/model/Document.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/model/Keyword.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/model/Keyword.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/model/NewsContent.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/model/NewsContent.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/model/Newswire.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/model/Newswire.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/model/OldUrl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/model/OldUrl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/AnalyticsPresenter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/AnalyticsPresenter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/CreateKeywordPresenter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/CreateKeywordPresenter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/CreateUserPresenter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/CreateUserPresenter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/ExtractNewsPresenter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/ExtractNewsPresenter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/ExtractedNewsPresenter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/ExtractedNewsPresenter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/HomePresenter$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/HomePresenter$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/HomePresenter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/HomePresenter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/ListOfNewsPresenter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/ListOfNewsPresenter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/LoginPresenter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/LoginPresenter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/MainPresenter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/MainPresenter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/ProfilePresenter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/ProfilePresenter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/SearchResultPresenter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/SearchResultPresenter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/SetNewswiresPresenter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/SetNewswiresPresenter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/SettingsPresenter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/SettingsPresenter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/TodaysNewsPresenter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/TodaysNewsPresenter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/util/AlertMaker.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/util/AlertMaker.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/util/CustomImageView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/util/CustomImageView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/util/DatabaseHelper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/util/DatabaseHelper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/util/ElasticClientHelper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/util/ElasticClientHelper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/view/AnalyticsView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/view/AnalyticsView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/view/CreateKeywordView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/view/CreateKeywordView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/view/CreateUserView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/view/CreateUserView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/view/ExtractNewsView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/view/ExtractNewsView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/view/ExtractedNewsView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/view/ExtractedNewsView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/view/HomeView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/view/HomeView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/view/ListOfNewsView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/view/ListOfNewsView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/view/LoginView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/view/LoginView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/view/MainView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/view/MainView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/view/ProfileView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/view/ProfileView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/view/SearchResultView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/view/SearchResultView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/view/SetNewswireView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/view/SetNewswireView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/view/SettingsView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/view/SettingsView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/view/TodaysNewsView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/view/TodaysNewsView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/kontrol/newsarchive/AppTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/com/kontrol/newsarchive/AppTest.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -36,6 +154,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="cdi.beans_3_0" />
         <option value="Class" />
       </list>
     </option>
@@ -181,12 +300,13 @@
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../good-old-elasticsearch-client" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="Errors" />
@@ -203,7 +323,7 @@
       <recent name="C:\Users\USER\IdeaProjects\newsarchive\src\main\resources\style" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Launcher">
+  <component name="RunManager">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="HTML_USED" value="false" />
       <option name="WIDTH" value="400" />
@@ -211,29 +331,25 @@
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <module />
     </configuration>
-    <configuration name="AutomaticExtractionScheduler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.kontrol.newsarchive.util.AutomaticExtractionScheduler" />
-      <module name="newsarchive" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.kontrol.newsarchive.util.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="Launcher" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.kontrol.newsarchive.Launcher" />
       <module name="newsarchive" />
-      <option name="VM_PARAMETERS" value="-p &quot;C:\Program Files\Java\javafx-sdk-11.0.2\lib&quot; --add-modules javafx.controls" />
+      <option name="VM_PARAMETERS" value="-p &quot;C:\Program Files\Java\javafx-sdk-11.0.2\lib&quot; --add-modules javafx.controls --add-exports=javafx.graphics/com.sun.javafx.stage=ALL-UNNAMED --add-exports=javafx.base/com.sun.javafx=ALL-UNNAMED --add-exports=javafx.controls/com.sun.javafx.scene.control.behavior=ALL-UNNAMED " />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.kontrol.newsarchive.*" />
           <option name="ENABLED" value="true" />
         </pattern>
+      </extension>
+      <extension name="net.ashald.envfile">
+        <option name="IS_ENABLED" value="false" />
+        <option name="IS_SUBST" value="false" />
+        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+        <option name="IS_IGNORE_MISSING_FILES" value="false" />
+        <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
+        <ENTRIES>
+          <ENTRY IS_ENABLED="true" PARSER="runconfig" />
+        </ENTRIES>
       </extension>
       <method v="2">
         <option name="Make" enabled="true" />
@@ -270,14 +386,9 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <list>
-      <item itemvalue="Application.AutomaticExtractionScheduler" />
-      <item itemvalue="Application.Launcher" />
-    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Launcher" />
-        <item itemvalue="Application.AutomaticExtractionScheduler" />
       </list>
     </recent_temporary>
   </component>
@@ -295,6 +406,11 @@
       <workItem from="1606289137622" duration="549000" />
       <workItem from="1606489322108" duration="31000" />
       <workItem from="1636841925144" duration="203000" />
+      <workItem from="1653034226023" duration="5560000" />
+      <workItem from="1653041295126" duration="2672000" />
+      <workItem from="1653059711853" duration="2783000" />
+      <workItem from="1653069799794" duration="2740000" />
+      <workItem from="1653132969399" duration="15385000" />
     </task>
     <servers />
   </component>
@@ -324,31 +440,5 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1605218322925">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.680@0.0.1280.680" timestamp="1605218322925" />
-    <state x="348" y="81" key="FileChooserDialogImpl" timestamp="1605218898168">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="348" y="81" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1605218898168" />
-    <state x="171" y="0" key="Maven.ArtifactSearchDialog" timestamp="1605219260468">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="171" y="0" key="Maven.ArtifactSearchDialog/0.0.1280.680@0.0.1280.680" timestamp="1605219260468" />
-    <state x="121" y="0" key="SettingsEditor" timestamp="1605235795034">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="121" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1605235795034" />
-    <state x="375" y="232" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1605235792497">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="375" y="232" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1280.680@0.0.1280.680" timestamp="1605235792497" />
-    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup" timestamp="1605256454280">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1605256454280" />
   </component>
 </project>

@@ -1,5 +1,7 @@
 package com.kontrol.newsarchive.presenter;
 
+import co.elastic.clients.elasticsearch.core.IndexRequest;
+import co.elastic.clients.elasticsearch.core.IndexResponse;
 import com.jfoenix.controls.JFXButton;
 import com.kontrol.newsarchive.Launcher;
 import com.kontrol.newsarchive.model.Document;
@@ -18,10 +20,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.elasticsearch.action.index.IndexRequest;
-import org.elasticsearch.action.index.IndexResponse;
-import org.elasticsearch.client.RestHighLevelClient;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
@@ -92,9 +92,6 @@ public class ExtractNewsPresenter {
     }
 
     private void saveDocumentsToInvertedIndex() {
-        RestHighLevelClient client = ElasticClientHelper.getConnection();
-        IndexRequest indexRequest = null;
-        IndexResponse indexResponse = null;
         for(String newsId : documents.keySet()){
             Map<String, String> docMap = new HashMap<>();
             docMap.put("title", documents.get(newsId).getTitle());
@@ -102,11 +99,16 @@ public class ExtractNewsPresenter {
             docMap.put("body", documents.get(newsId).getBody());
             docMap.put("date", documents.get(newsId).getDate());
 
-            indexRequest = new IndexRequest("newscontents", "doc", newsId).source(docMap);
-            indexRequest.timeout("20s");
+            //IndexRequest indexRequest = new IndexRequest("newscontents", "doc", newsId).source(docMap);
+            IndexRequest indexRequest = new IndexRequest.Builder()
+                    .id(newsId)
+                    .index("newscontents")
+                    .document(docMap)
+                    //.timeout(20s)
+                    .build();
 
             try {
-                indexResponse = client.index(indexRequest);
+                IndexResponse indexResponse = ElasticClientHelper.getConnection().index(indexRequest);
                 System.out.println("Indexed: " + newsId);
             }catch (IOException e){
                 System.out.println(e);
@@ -329,58 +331,39 @@ public class ExtractNewsPresenter {
     }
 
     private String getNewsBody(org.jsoup.nodes.Document newsContent, String source) {
-        String body = "";
+        Map<String, String> wellKnownSources = new HashMap<>();
+        wellKnownSources.put("https://punchng.com/", "div.row");
+        wellKnownSources.put("https://www.vanguardngr.com/", "div.entry-content");
+        wellKnownSources.put("https://www.dailytrust.com.ng/", "div.entry-content");
+        wellKnownSources.put("https://tribuneonlineng.com/", "div.entry-content");
+        wellKnownSources.put("https://businessday.ng/", "div.entry-content");
+        wellKnownSources.put("http://brtnews.ng/", "div.entry-content");
+        wellKnownSources.put("https://www.thisdaylive.com/", "div.td-post-content");
+        wellKnownSources.put("https://www.independent.ng/", "div.td-post-content");
+        wellKnownSources.put("https://guardian.ng/", "div.single-article-content");
+        wellKnownSources.put("https://dailytimes.ng/", "div.entry-content no-share");
+        wellKnownSources.put("https://leadership.ng/", "div.left relative");
+        wellKnownSources.put("https://www.newtelegraphng.com/", "div.left relative");
+        wellKnownSources.put("https://thenationonlineng.net/", "div.content-inner");
+        wellKnownSources.put("https://theeagleonline.com.ng/", "div.content-inner");
+        wellKnownSources.put("https://peoplesdailyng.com/", "div.entry");
+        wellKnownSources.put("https://www.blueprint.ng/", "div.entry-content clearfix");
+        wellKnownSources.put("https://www.premiumtimesng.com/", "div.entry-content manoj single-add-content");
+        wellKnownSources.put("http://saharareporters.com/", "div.panel-pane pane-node-content");
+        wellKnownSources.put("https://investadvocate.com.ng/", "div.article-body");
+        wellKnownSources.put("https://investdata.com.ng/", "div.post-body-inner");
 
-        try {
-            if(source.contains("https://punchng.com/")){
-                body = newsContent.select("div.row").first().text();
+        var ref = new Object() {
+            String body = newsContent.body().text();
+        };
+        wellKnownSources.forEach((src, element) -> {
+            if (source.contains(src)) {
+                Optional<Element> elementOptional = Optional.ofNullable(newsContent.select(element).first());
+                ref.body = elementOptional.orElse(new Element(newsContent.body().text())).text();
             }
-            else if(source.contains("https://www.vanguardngr.com/") || source.contains("https://www.dailytrust.com.ng/")
-                    || source.contains("https://tribuneonlineng.com/") || source.contains("https://businessday.ng/")
-                    || source.contains("http://brtnews.ng/")){
-                body = newsContent.select("div.entry-content").first().text();
-            }
-            else if(source.contains("https://www.thisdaylive.com/") || source.contains("https://www.independent.ng/")){
-                body = newsContent.select("div.td-post-content").first().text();
-            }
-            else if(source.contains("https://guardian.ng/")){
-                body = newsContent.select("div.single-article-content").first().text();
-            }
-            else if(source.contains("https://dailytimes.ng/")){
-                body = newsContent.select("div.entry-content no-share").first().text();
-            }
-            else if(source.contains("https://leadership.ng/") || source.contains("https://www.newtelegraphng.com/")){
-                body = newsContent.select("div.left relative").first().text();
-            }
-            else if(source.contains("https://thenationonlineng.net/") || source.contains("https://theeagleonline.com.ng/")){
-                body = newsContent.select("div.content-inner").first().text();
-            }
-            else if(source.contains("https://peoplesdailyng.com/")){
-                body = newsContent.select("div.entry").first().text();
-            }
-            else if(source.contains("https://www.blueprint.ng/")){
-                body = newsContent.select("div.entry-content clearfix").first().text();
-            }
-            else if(source.contains("https://www.premiumtimesng.com/")){
-                body = newsContent.select("div.entry-content manoj single-add-content").first().text();
-            }
-            else if(source.contains("http://saharareporters.com/")){
-                body = newsContent.select("div.panel-pane pane-node-content").first().text();
-            }
-            else if(source.contains("https://investadvocate.com.ng/")){
-                body = newsContent.select("div.article-body").first().text();
-            }
-            else if(source.contains("https://investdata.com.ng/")){
-                body = newsContent.select("div.post-body-inner").first().text();
-            }
-            else {
-                body = newsContent.body().text();
-            }
-        }catch (NullPointerException e){
-            body = newsContent.body().text();
-        }
+        });
 
-        return (body == null || body.equals("")) ? newsContent.body().text() : body;
+        return ref.body;
     }
 
     private void createNodeAndDisplayOnScreen(Document relevantDocument) {
