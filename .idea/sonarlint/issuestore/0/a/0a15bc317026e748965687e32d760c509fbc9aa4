@@ -1,0 +1,30 @@
+
+J
+java:S3740'"/Provide the parametrized type for this generic.(ÕµÔ¾úÿÿÿÿ
+Q	java:S125("<This block of commented-out lines of code should be removed.(ñÿúŽ
+G
+java:S1172-",Remove this unused method parameter "query".(ë¯ÍÆúÿÿÿÿ
+V	java:S125*"<This block of commented-out lines of code should be removed.(õ±•óúÿÿÿÿ
+V	java:S1251"<This block of commented-out lines of code should be removed.(§Ö”¨ÿÿÿÿÿ
+V	java:S125@"<This block of commented-out lines of code should be removed.(§Ö”¨ÿÿÿÿÿ
+Y
+java:S1172K"7Remove these unused method parameters "query", "field".(­¾ª‰þÿÿÿÿ8­±ú´Ž0
+W	java:S125O"<This block of commented-out lines of code should be removed.(È–†T8¯±ú´Ž0
+]	java:S125`"<This block of commented-out lines of code should be removed.(™ú÷¬ûÿÿÿÿ8ú¬û´Ž0
+^	java:S125Õ"<This block of commented-out lines of code should be removed.(Ñþíáûÿÿÿÿ8ÆÖû´Ž0
+Y	java:S125ß"<This block of commented-out lines of code should be removed.(½‘Ñ³8Êü´Ž0
+^	java:S125è"<This block of commented-out lines of code should be removed.(×Ý­Ãùÿÿÿÿ8¢°ý´Ž0
+N
+java:S1068&"1Remove this unused "searchRequest" private field.(ÿòº×8˜Êü´Ž0
+T
+java:S1068'"2Remove this unused "searchResponse" private field.(ÕµÔ¾úÿÿÿÿ8ÌÖû´Ž0
+H
+java:S1068)"-Remove this unused "totalHits" private field.(Á‚Ÿ£ÿÿÿÿÿ
+[
+java:S1144_"9Remove this unused private "displaySearchResults" method.(®þüãýÿÿÿÿ8ÌÖû´Ž0
+V
+java:S1144s"9Remove this unused private "createNodeAndDisplay" method.(ç©Ì•8›­û´Ž0
+[
+java:S1144õ"=Remove this unused private "removeNodeFromSceneGraph" method.(ïÀ°´8§°ý´Ž0
+q
+java:S1192x"VDefine a constant instead of duplicating this literal "-fx-border-radius: 5;" 4 times.(Š˜Ñùÿÿÿÿ

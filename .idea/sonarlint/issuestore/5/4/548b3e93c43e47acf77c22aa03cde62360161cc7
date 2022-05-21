@@ -1,0 +1,41 @@
+
+?
+java:S3010"$Remove this assignment of "officer".(•ÔìÁøÿÿÿÿ
+<
+java:S3010"&Remove this assignment of "newswires".(½­á
+@
+java:S3010"%Remove this assignment of "keywords".(…Ùí­şÿÿÿÿ
+:
+java:S2386"$Make member "newswires" "protected".(½­á
+>
+java:S2386"#Make member "keywords" "protected".(…Ùí­şÿÿÿÿ
+J
+java:S1611#"/Remove the parentheses around the "e" parameter(ï†…úÿÿÿÿ
+J
+java:S1611$"/Remove the parentheses around the "e" parameter(İªô‰şÿÿÿÿ
+J
+java:S1611%"/Remove the parentheses around the "e" parameter(Òò×ıÿÿÿÿ
+E
+java:S1611&"/Remove the parentheses around the "e" parameter(ˆæ›
+J
+java:S1611'"/Remove the parentheses around the "e" parameter(Í…€ªüÿÿÿÿ
+b
+java:S11927"LDefine a constant instead of duplicating this literal "Input Error" 3 times.(‘êÒ³
+i
+java:S1104"SMake officer a static final constant or non-public and provide accessors if needed.(®™Àˆ
+k
+java:S1104"UMake newswires a static final constant or non-public and provide accessors if needed.(»ÛÏç
+o
+java:S1104"TMake keywords a static final constant or non-public and provide accessors if needed.(ìÿ‘ÿÿÿÿÿ
+C
+java:S1444"-Make this "public static officer" field final(®™Àˆ
+E
+java:S1444"/Make this "public static newswires" field final(»ÛÏç
+I
+java:S1444".Make this "public static keywords" field final(ìÿ‘ÿÿÿÿÿ
+M
+java:S2589Z"7Remove this expression which always evaluates to "true"(ªí¥’
+Z
+java:S2583+"DChange this condition so that it does not always evaluate to "false"(²×÷ë
+T
+java:S35162"9Refactor this method to not always return the same value.(ë•öùÿÿÿÿ

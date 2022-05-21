@@ -28,10 +28,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9d7d9937-4fd2-41e3-8361-cc6a1a1c0941" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/beans.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/ExtractNewsPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/ExtractNewsPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/HomePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/HomePresenter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -297,7 +297,8 @@
       <workItem from="1653041295126" duration="2672000" />
       <workItem from="1653059711853" duration="2783000" />
       <workItem from="1653069799794" duration="2740000" />
-      <workItem from="1653132969399" duration="15704000" />
+      <workItem from="1653132969399" duration="15824000" />
+      <workItem from="1653160797624" duration="6280000" />
     </task>
     <servers />
   </component>
