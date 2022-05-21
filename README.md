@@ -1,5 +1,5 @@
 
-# News Archive
+# News Archive    [![Badge License]][License]
 
 *A news extraction & archival program.*
 
@@ -36,4 +36,7 @@ around breaking changes ( Modules ).
 
 <!----------------------------------------------------------------------------->
 
+[Badge License]: https://img.shields.io/badge/License-Unknown-808080.svg?style=for-the-badge
 [Note]: https://img.shields.io/badge/Note-red?style=for-the-badge
+
+[License]: #
