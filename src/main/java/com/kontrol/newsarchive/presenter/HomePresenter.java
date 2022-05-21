@@ -22,18 +22,13 @@ import java.util.*;
 
 public class HomePresenter {
 
-    private HomeView view;
-    public static List<String> newswires;
-    public static List<String> keywords;
-    private ContextMenu logoutCtxMenu;
-    private String nextExtractionTime;
+    private HomeView view = new HomeView();;
+    public static List<String> newswires = new ArrayList<>();
+    public static List<String> keywords = new ArrayList<>();
+    private ContextMenu logoutCtxMenu = new ContextMenu();
+    private String nextExtractionTime = "";
 
     public HomePresenter(){
-        view = new HomeView();
-        newswires = new ArrayList<>();
-        keywords = new ArrayList<>();
-        logoutCtxMenu = new ContextMenu();
-        nextExtractionTime = "";
         initNextExtractionTime();
         initListViews();
         fetchTodaysNews();
@@ -204,7 +199,6 @@ public class HomePresenter {
     private void handleExtractNewsHBoxClicked(MouseEvent event){
         Launcher.loadWindow("Extract News", Modality.APPLICATION_MODAL,
                 new ExtractNewsPresenter().getView(), 850, 600);
-        ExtractNewsPresenter.threadPool = null;
     }
 
     private void handleLogoutItemClicked(ActionEvent event){

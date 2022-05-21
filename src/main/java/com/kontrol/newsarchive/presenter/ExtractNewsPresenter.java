@@ -21,39 +21,38 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.net.UnknownHostException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class ExtractNewsPresenter {
 
-    private ExtractNewsView view;
+    private static final Logger LOGGER = Logger.getLogger(ExtractNewsPresenter.class.getName());
+    private final ExtractNewsView view = new ExtractNewsView();
     private double dragOffsetX;
     private double dragOffsetY;
-    private Map<String, Document> documents;
-    private Set<String> oldUrls;
-    public static ExecutorService threadPool;
+    private final Map<String, Document> documents = new HashMap<>();
+    private final Set<String> oldUrls = new HashSet<>();
+    public final ExecutorService executor = Executors.newCachedThreadPool();
+    private static final int DEFAULT_TIMEOUT = 30 * 1_000;
 
     public ExtractNewsPresenter(){
-        view = new ExtractNewsView();
-        documents = new HashMap<>();
-        oldUrls = new HashSet<>();
-        threadPool = Executors.newFixedThreadPool(5);
         addDragListeners();
         addEventHandlers();
         loadOldURLs();
         startExtraction();
-        threadPool.shutdown();
     }
 
     private void loadOldURLs() {
@@ -62,12 +61,11 @@ public class ExtractNewsPresenter {
         try {
             while (resultSet.next()){
                 String url = resultSet.getString("url");
-                String date = resultSet.getString("date");
                 oldUrls.add(url);
-                System.out.println("Archive: OldUrl: " + url);
+                LOGGER.info("Archive: OldUrl: " + url);
             }
-        }catch (SQLException e){
-            System.out.println("Unable to load old urls");
+        }catch (SQLException ex){
+            LOGGER.log(Level.SEVERE, "Unable to load old urls {}", ex.getMessage());
         }
     }
 
@@ -81,11 +79,9 @@ public class ExtractNewsPresenter {
     private void handleCancelIconClick(MouseEvent event){
         getView().getProgressIndicator().setVisible(false);
         getView().getCancelIcon().setVisible(false);
-        threadPool = null;
     }
 
     private void handleArchiveClick(ActionEvent actionEvent){
-        threadPool = null;
         saveUrlsToDb();
         saveDocumentsToInvertedIndex();
         AlertMaker.showNotification("Success", "News has been archived", AlertMaker.image_checked);
@@ -109,12 +105,12 @@ public class ExtractNewsPresenter {
 
             try {
                 IndexResponse indexResponse = ElasticClientHelper.getConnection().index(indexRequest);
-                System.out.println("Indexed: " + newsId);
-            }catch (IOException e){
-                System.out.println(e);
+                LOGGER.info("Indexed: " + newsId);
+            }catch (IOException ex){
+                LOGGER.log(Level.SEVERE, ex.getMessage());
             }
         }
-        System.out.println("Done Indexing " + documents.size() + "files");
+        LOGGER.info("Done Indexing " + documents.size() + "files");
     }
 
     private void saveUrlsToDb() {
@@ -171,7 +167,7 @@ public class ExtractNewsPresenter {
 
             org.jsoup.nodes.Document newNewsSource = null;
             try {
-                newNewsSource = Jsoup.connect(newsUrl).timeout(30 * 1000).get();
+                newNewsSource = Jsoup.connect(newsUrl).timeout(DEFAULT_TIMEOUT).get();
             }
             catch (IllegalArgumentException | IOException e){
                 AlertMaker.showErrorMessage(e);
@@ -179,7 +175,7 @@ public class ExtractNewsPresenter {
             }
 
             String title = newNewsSource.title();
-            String body = getNewsBody(newNewsSource, newsUrl);
+            String body = getNewsBody(newNewsSource);
             DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
             String formattedDate = dateFormat.format(new Date());
 
@@ -196,28 +192,23 @@ public class ExtractNewsPresenter {
     }
 
     private void handleCloseClicked(ActionEvent event){
-        threadPool = null;
         getView().getCloseButton().getScene().getWindow().hide();
     }
 
     private void startExtraction() {
-        for(int j = 0; j < HomePresenter.newswires.size(); j++){
-            int finalJ = j;
-            threadPool.execute(()-> crawlNewswire(HomePresenter.newswires.get(finalJ)));
-        }
+        HomePresenter.newswires.forEach(newswire -> {
+            CompletableFuture<Void> extractionFuture = CompletableFuture.runAsync(() -> {
+                startExtraction(newswire);
+            }, executor);
 
-        new Thread(()->{
-            if(threadPool != null){
-                try {
-                    while (!threadPool.isTerminated()){
-                    }
-                }catch (NullPointerException e){
-                    hideProgressIndicatorPane();
+            extractionFuture.thenRunAsync(this::hideProgressIndicatorPane, executor);
+
+            extractionFuture.whenComplete((result, ex) -> {
+                if (ex != null) {
+                    LOGGER.log(Level.SEVERE, ex.getCause().getMessage());
                 }
-            }
-            hideProgressIndicatorPane();
-        }).start();
-
+            });
+        });
     }
 
     private void hideProgressIndicatorPane() {
@@ -227,143 +218,65 @@ public class ExtractNewsPresenter {
         });
     }
 
-    private void crawlNewswire(String startAddress) {
-        List<String> traversedLinks = new ArrayList<>();
-        List<String> unTraversedLinks = new ArrayList<>();
-        Set<Document> setOfRelevantNews = new HashSet<>();
+    private void startExtraction(String startAddress) {
+        org.jsoup.nodes.Document startPage = toDocument(startAddress);
 
-        org.jsoup.nodes.Document doc = null;
-        try {
-            doc = Jsoup.connect(startAddress).timeout(30 * 1000).get();
-            traversedLinks.add(startAddress);
-            System.out.println("Archive: Connected to " + startAddress);
-        }
-        catch (IllegalArgumentException e){
-            System.out.println(startAddress + " is not a valid URL");
-            return;
-        }
-        catch (UnknownHostException e){
-            System.out.println("Could not connect to " + startAddress);
-            return;
-        }
-        catch (IOException e) {
-            System.out.println(e);
-            return;
-        }
+        Elements links = getLinksAsElements(startPage);
 
-        Elements links = null;
-        try {
-            links = doc.select("a[href]");
-        }catch (NullPointerException e){
-            return;
-        }
-        for(int i = 0; i < links.size(); i++){
-            if(threadPool == null){
-                return;
-            }
-            String link = links.get(i).attr("abs:href");
-            if(link.contains("#")){
-                continue;
-            }
-            unTraversedLinks.add(link);
-        }
-
+        List<String> unTraversedLinks = getLinksFromElements(links);
         unTraversedLinks.removeAll(oldUrls);
 
-        System.out.println("Total number of traversable links from @ " + startAddress + " : " + unTraversedLinks.size());
-
-        System.out.println("Archive: Total number of links: " + unTraversedLinks.size() + " @ " + startAddress);
-        System.out.println("Archive: Total Number of traverseable Links: " + unTraversedLinks.size());
-
-        org.jsoup.nodes.Document newsContent = null;
-        for(int l = 0; l < unTraversedLinks.size(); l++){
-            if(threadPool == null){
-                return;
-            }
-            String newsUrl = unTraversedLinks.get(l);
-            if(traversedLinks.contains(newsUrl)){
-                unTraversedLinks.remove(newsUrl);
-                continue;
-            }
+        unTraversedLinks.forEach(link -> {
             try {
-                newsContent = Jsoup.connect(newsUrl).timeout(20 * 1000).get();
-            }
-            catch (IllegalArgumentException e){
-                unTraversedLinks.remove(l);
-                continue;
-            }
-            catch (UnknownHostException e){
-                System.out.println("Archive: Unable to get document from: " + newsUrl);
-                unTraversedLinks.remove(newsUrl);
-                continue;
-            }
-            catch (IOException e) {
-                System.out.println("Archive: Connection timed-out: " + newsUrl);
-                unTraversedLinks.remove(newsUrl);
-                continue;
-            }
-            finally {
-                unTraversedLinks.remove(newsUrl);
-                traversedLinks.add(newsUrl);
-            }
+                org.jsoup.nodes.Document newsContent = Jsoup.connect(link).timeout(DEFAULT_TIMEOUT).get();
+                String title = newsContent.title();
+                String body = getNewsBody(newsContent);
+                DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
+                String formattedDate = dateFormat.format(new Date());
 
-            String title = newsContent.title();
-            String body = getNewsBody(newsContent, startAddress);
-            DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
-            String formattedDate = dateFormat.format(new Date());
-
-            for(String tag : HomePresenter.keywords){
-                if(threadPool == null){
-                    return;
-                }
-
-                Document relevantDocument = new Document(newsUrl, title, startAddress, body, formattedDate);
-                if((title.contains(tag) || title.contains(tag.toLowerCase()) )
-                        && !setOfRelevantNews.contains(relevantDocument)){
-                    setOfRelevantNews.add(relevantDocument);
-                    documents.put(newsUrl, relevantDocument);
-                    createNodeAndDisplayOnScreen(relevantDocument);
-                    System.out.println("Archive: " + newsUrl + " matches " + tag);
-                }
+                Document relevantDocument = new Document(link, title, startAddress, body, formattedDate);
+                HomePresenter.keywords.forEach(keyword -> {
+                    if(title.toLowerCase().contains(keyword.toLowerCase())){
+                        documents.put(link, relevantDocument);
+                        createNodeAndDisplayOnScreen(relevantDocument);
+                        LOGGER.info(String.format("Archive: %s matches %s", link, keyword));
+                    }
+                });
+            } catch (IllegalArgumentException | IOException e) {
+                LOGGER.info("Archive: Connection timed-out: " + link);
             }
-            System.out.println("Archive: Walked through " + l + " of " + unTraversedLinks.size());
+        });
+    }
+
+    private org.jsoup.nodes.Document toDocument(String startAddress) {
+        try {
+            org.jsoup.nodes.Document doc = Jsoup.connect(startAddress).timeout(DEFAULT_TIMEOUT).get();
+            LOGGER.info("Archive: Connected to " + startAddress);
+            return doc;
+        } catch (IllegalArgumentException | IOException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage());
+            throw new IllegalStateException();
         }
     }
 
-    private String getNewsBody(org.jsoup.nodes.Document newsContent, String source) {
-        Map<String, String> wellKnownSources = new HashMap<>();
-        wellKnownSources.put("https://punchng.com/", "div.row");
-        wellKnownSources.put("https://www.vanguardngr.com/", "div.entry-content");
-        wellKnownSources.put("https://www.dailytrust.com.ng/", "div.entry-content");
-        wellKnownSources.put("https://tribuneonlineng.com/", "div.entry-content");
-        wellKnownSources.put("https://businessday.ng/", "div.entry-content");
-        wellKnownSources.put("http://brtnews.ng/", "div.entry-content");
-        wellKnownSources.put("https://www.thisdaylive.com/", "div.td-post-content");
-        wellKnownSources.put("https://www.independent.ng/", "div.td-post-content");
-        wellKnownSources.put("https://guardian.ng/", "div.single-article-content");
-        wellKnownSources.put("https://dailytimes.ng/", "div.entry-content no-share");
-        wellKnownSources.put("https://leadership.ng/", "div.left relative");
-        wellKnownSources.put("https://www.newtelegraphng.com/", "div.left relative");
-        wellKnownSources.put("https://thenationonlineng.net/", "div.content-inner");
-        wellKnownSources.put("https://theeagleonline.com.ng/", "div.content-inner");
-        wellKnownSources.put("https://peoplesdailyng.com/", "div.entry");
-        wellKnownSources.put("https://www.blueprint.ng/", "div.entry-content clearfix");
-        wellKnownSources.put("https://www.premiumtimesng.com/", "div.entry-content manoj single-add-content");
-        wellKnownSources.put("http://saharareporters.com/", "div.panel-pane pane-node-content");
-        wellKnownSources.put("https://investadvocate.com.ng/", "div.article-body");
-        wellKnownSources.put("https://investdata.com.ng/", "div.post-body-inner");
+    private Elements getLinksAsElements(org.jsoup.nodes.Document document) {
+        try {
+            return document.select("a[href]");
+        }catch (NullPointerException ex){
+            LOGGER.log(Level.SEVERE, ex.getMessage());
+            return new Elements();
+        }
+    }
 
-        var ref = new Object() {
-            String body = newsContent.body().text();
-        };
-        wellKnownSources.forEach((src, element) -> {
-            if (source.contains(src)) {
-                Optional<Element> elementOptional = Optional.ofNullable(newsContent.select(element).first());
-                ref.body = elementOptional.orElse(new Element(newsContent.body().text())).text();
-            }
-        });
+    private List<String> getLinksFromElements(Elements links) {
+        return links.stream()
+                .map(link -> link.attr("abs:href"))
+                .filter(link -> !link.contains("#"))
+                .collect(Collectors.toList());
+    }
 
-        return ref.body;
+    private String getNewsBody(org.jsoup.nodes.Document newsContent) {
+        return newsContent.body().text();
     }
 
     private void createNodeAndDisplayOnScreen(Document relevantDocument) {
