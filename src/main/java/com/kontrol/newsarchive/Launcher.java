@@ -35,7 +35,7 @@ public class Launcher extends Application{
 
         @Override
         public void run() {
-            resultSet = DatabaseHelper.getUserNamePassword_admin();
+            resultSet = DatabaseHelper.getUserNamePasswordAdmin();
             latch.countDown();
         }
     }
@@ -160,7 +160,7 @@ public class Launcher extends Application{
     public static void main( String[] args ) {
         try {
             executor = Executors.newFixedThreadPool(2);
-            executor.execute(DatabaseHelper::create_all_tables);
+            executor.execute(DatabaseHelper::createAllTables);
             launch(args);
         } finally {
             executor.shutdown();

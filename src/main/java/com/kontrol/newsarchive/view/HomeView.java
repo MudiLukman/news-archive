@@ -77,6 +77,11 @@ public class HomeView extends BorderPane {
         logoutButton.setPickOnBounds(true);
         userNameLabel.setFont(new Font(16));
         userNameLabel.setTextFill(Color.WHITE);
+
+        Label alertLabel = new Label();
+        alertLabel.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+        alertLabel.setGraphic(alertImageView);
+
         toolBarHBox.getChildren().addAll(searchBar, spacer, alertImageView,
                 userIconImageView, userNameLabel, logoutButton);
         toolBarHBox.setStyle("-fx-background-color: rgb(62, 73, 86);");

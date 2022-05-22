@@ -3,6 +3,7 @@ package com.kontrol.newsarchive.presenter;
 import com.kontrol.newsarchive.model.DeskOfficer;
 import com.kontrol.newsarchive.util.AlertMaker;
 import com.kontrol.newsarchive.util.DatabaseHelper;
+import com.kontrol.newsarchive.util.UrlUtil;
 import com.kontrol.newsarchive.view.SettingsView;
 import javafx.event.ActionEvent;
 import javafx.scene.input.MouseEvent;
@@ -11,13 +12,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SettingsPresenter {
 
-    private SettingsView view;
+    private static final Logger LOGGER = Logger.getLogger(SettingsPresenter.class.getName());
+    private final SettingsView view = new SettingsView();
 
     public SettingsPresenter(){
-        view = new SettingsView();
         presetValues();
         addEventHandlers();
     }
@@ -66,7 +69,7 @@ public class SettingsPresenter {
     }
 
     private void handleUpdateKeywordClicked(ActionEvent event){
-        DatabaseHelper.insert_record("DELETE FROM keyword");
+        DatabaseHelper.insertRecord("DELETE FROM keyword");
         if(getView().getKeywordsChipView().getChips().isEmpty()){
             AlertMaker.showNotification("Error", "You have to specify at least one tag", AlertMaker.image_warning);
             return;
@@ -75,23 +78,22 @@ public class SettingsPresenter {
         for(Object k : getView().getKeywordsChipView().getChips()){
             String keyword = (String) k;
             String sql = "INSERT INTO keyword(value) VALUES (" + "'" + keyword + "');";
-            DatabaseHelper.insert_record(sql);
+            DatabaseHelper.insertRecord(sql);
         }
         AlertMaker.showNotification("Success", "Keywords updated Successfully", AlertMaker.image_checked);
         getView().getKeywordsChipView().setDisable(true);
     }
 
     private void handleUpdateNewswireClicked(ActionEvent event){
-        DatabaseHelper.insert_record("DELETE FROM newswire");
+        DatabaseHelper.insertRecord("DELETE FROM newswire");
         if(getView().getNewswireChipView().getChips().isEmpty()){
             AlertMaker.showNotification("Error", "You have to specify at least one newswire source", AlertMaker.image_warning);
             return;
         }
 
-        for(Object n : getView().getNewswireChipView().getChips()){
-            String newswire = (String) n;
+        for(String newswire : getView().getNewswireChipView().getChips()){
             String sql = "INSERT INTO newswire(url) VALUES (" + "'" + newswire + "');";
-            DatabaseHelper.insert_record(sql);
+            DatabaseHelper.insertRecord(sql);
         }
         AlertMaker.showNotification("Success", "Keywords updated Successfully", AlertMaker.image_checked);
         getView().getNewswireChipView().setDisable(true);
@@ -106,7 +108,7 @@ public class SettingsPresenter {
             AlertMaker.showNotification("Error", "Empty input or 'aggregator url'", AlertMaker.image_warning);
             return;
         }
-        if(!SetNewswiresPresenter.isUrlValid(getView().getAggregatorUrlField().getText())){
+        if(!UrlUtil.isValid(getView().getAggregatorUrlField().getText())){
             AlertMaker.showNotification("Error", "Invalid url", AlertMaker.image_cross);
             return;
         }
@@ -115,7 +117,7 @@ public class SettingsPresenter {
         String sql = "UPDATE deskofficer set aggregatorname='"
                 + aggregatorName + "', aggregatorurl='" + aggregatorUrl
                 + "' WHERE username='" + LoginPresenter.usernameOfLoggedInUser + "'";
-        if(DatabaseHelper.insert_record(sql) != 0){
+        if(DatabaseHelper.insertRecord(sql) != 0){
             AlertMaker.showNotification("Success", "Aggregator Updated Successfully", AlertMaker.image_checked);
         }
         else {
@@ -146,7 +148,7 @@ public class SettingsPresenter {
 
         String sql = "UPDATE deskofficer set intervals='"
                 + interval + "' WHERE username='" + LoginPresenter.usernameOfLoggedInUser + "'";
-        if(DatabaseHelper.insert_record(sql) != 0){
+        if(DatabaseHelper.insertRecord(sql) != 0){
             AlertMaker.showNotification("Success", "Interval updated successfully", AlertMaker.image_checked);
         }
         else {
@@ -184,7 +186,7 @@ public class SettingsPresenter {
         String hashedPassword = DeskOfficer.sha1(getView().getNewPasswordField().getText());
         String sql = "UPDATE deskofficer set password='"
                 + hashedPassword + "' WHERE username='" + LoginPresenter.usernameOfLoggedInUser + "'";
-        if(DatabaseHelper.insert_record(sql) != 0){
+        if(DatabaseHelper.insertRecord(sql) != 0){
             AlertMaker.showNotification("Success", "Password has been changed successfully",
                     AlertMaker.image_checked);
             getView().getCurrentPasswordField().setText("");
@@ -211,8 +213,8 @@ public class SettingsPresenter {
         try {
             resultSet.next();
             timeInterval = resultSet.getString("intervals");
-        }catch (SQLException e){
-            System.out.println(e);
+        }catch (SQLException ex){
+            LOGGER.log(Level.SEVERE, ex.getMessage());
         }
         return timeInterval;
     }
@@ -225,8 +227,8 @@ public class SettingsPresenter {
         try {
             resultSet.next();
             aggregatorName = resultSet.getString("aggregatorname");
-        }catch (SQLException e){
-            System.out.println(e);
+        }catch (SQLException ex){
+            LOGGER.log(Level.SEVERE, ex.getMessage());
         }
         return aggregatorName;
     }
@@ -239,8 +241,8 @@ public class SettingsPresenter {
         try {
             resultSet.next();
             aggregatorUrl = resultSet.getString("aggregatorurl");
-        }catch (SQLException e){
-            System.out.println(e);
+        }catch (SQLException ex){
+            LOGGER.log(Level.SEVERE, ex.getMessage());
         }
         return aggregatorUrl;
     }
@@ -254,8 +256,8 @@ public class SettingsPresenter {
             while (resultSet.next()){
                 newswires.add(resultSet.getString("url"));
             }
-        }catch (SQLException e){
-            System.out.println(e);
+        }catch (SQLException ex){
+            LOGGER.log(Level.SEVERE, ex.getMessage());
         }
         return newswires;
     }
@@ -269,8 +271,8 @@ public class SettingsPresenter {
             while (resultSet.next()){
                 keywords.add(resultSet.getString("value"));
             }
-        }catch (SQLException e){
-            System.out.println(e);
+        }catch (SQLException ex){
+            LOGGER.log(Level.SEVERE, ex.getMessage());
         }
         return keywords;
     }
@@ -283,8 +285,8 @@ public class SettingsPresenter {
         try {
             resultSet.next();
             currentPassword = resultSet.getString("password");
-        }catch (SQLException e){
-            System.out.println(e);
+        }catch (SQLException ex){
+            LOGGER.log(Level.SEVERE, ex.getMessage());
         }
         return currentPassword;
     }

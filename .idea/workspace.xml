@@ -28,10 +28,57 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9d7d9937-4fd2-41e3-8361-cc6a1a1c0941" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/util/UrlUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/a/0a15bc317026e748965687e32d760c509fbc9aa4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/1/9/19708d0c0b03d438ac7c43fbe566fa0aaa4693fe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/2/3/23161d8be038c84bda97aed0ec76a89b3a372d48" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/2/d/2d28407af7190091a35f561c4c7e8b554fc3f3af" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/3/3/3364bc12af5bdb86f9bca2bd36ca0060afa3412b" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/4/a/4a55087402a27fc3fb69f0a9974b2084a9141542" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/5/4/548b3e93c43e47acf77c22aa03cde62360161cc7" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/5/c/5c53c48812b761bcd9702c826f07a46c5412ed14" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/5/7515da116026f8a85255f57c1ea61c8874a09d63" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/5/75877b22a31e1c7f2f5b228103ef5406742a3073" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/b/7bfae444f467a3bd3cb000880c2021b1ab161f40" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/a/1/a1b8e74bde0cad0c7c499d61367cb03642a2e011" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/c/3/c38a91c1285f162de5609abe3d918eafed63cb27" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/d/e/de19ef372870066430864a43b4615ab35690d28a" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/d/e/de3194c2f52a1c6596eb1a6d145748e32ac3c8f9" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/d/f/df6116d4b4a9442c3119a01f71f0fa072bb6c16e" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/9/e95ff743dbdc19846b120276bb2505ac7973e527" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/Launcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/Launcher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/model/DeskOfficer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/model/DeskOfficer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/model/NewsContent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/model/NewsContent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/model/Newswire.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/model/Newswire.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/model/OldUrl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/model/OldUrl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/AnalyticsPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/AnalyticsPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/CreateKeywordPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/CreateKeywordPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/CreateUserPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/CreateUserPresenter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/ExtractNewsPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/ExtractNewsPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/ExtractedNewsPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/ExtractedNewsPresenter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/HomePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/HomePresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/ListOfNewsPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/ListOfNewsPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/LoginPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/LoginPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/MainPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/MainPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/ProfilePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/ProfilePresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/SearchResultPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/SearchResultPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/SetNewswiresPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/SetNewswiresPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/SettingsPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/SettingsPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/TodaysNewsPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/presenter/TodaysNewsPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/util/CustomImageView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/util/CustomImageView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/util/DatabaseHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/util/DatabaseHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/view/ExtractedNewsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/view/ExtractedNewsView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/view/HomeView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/view/HomeView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/view/SettingsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kontrol/newsarchive/view/SettingsView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/CreateUserPresenter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/CreateUserPresenter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/ExtractNewsPresenter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/ExtractNewsPresenter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/ExtractedNewsPresenter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/ExtractedNewsPresenter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/SetNewswiresPresenter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/SetNewswiresPresenter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/SettingsPresenter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/SettingsPresenter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/TodaysNewsPresenter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/presenter/TodaysNewsPresenter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/view/ExtractedNewsView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/kontrol/newsarchive/view/ExtractedNewsView.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -298,7 +345,8 @@
       <workItem from="1653059711853" duration="2783000" />
       <workItem from="1653069799794" duration="2740000" />
       <workItem from="1653132969399" duration="15824000" />
-      <workItem from="1653160797624" duration="6280000" />
+      <workItem from="1653160797624" duration="6610000" />
+      <workItem from="1653247564249" duration="12195000" />
     </task>
     <servers />
   </component>

@@ -4,11 +4,7 @@ import com.kontrol.newsarchive.view.ProfileView;
 
 public class ProfilePresenter {
 
-    private ProfileView view;
-
-    public ProfilePresenter(){
-        view = new ProfileView();
-    }
+    private ProfileView view = new ProfileView();
 
     public ProfileView getView() {
         return view;

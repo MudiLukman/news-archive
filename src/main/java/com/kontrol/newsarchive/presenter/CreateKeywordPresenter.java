@@ -15,12 +15,11 @@ import javafx.stage.Stage;
 
 public class CreateKeywordPresenter {
 
-    private CreateKeywordView view;
+    private final CreateKeywordView view = new CreateKeywordView();
     private double dragOffsetX;
     private double dragOffsetY;
 
     public CreateKeywordPresenter(){
-        this.view = new CreateKeywordView();
         addDragListeners();
         addListeners();
     }
@@ -41,7 +40,6 @@ public class CreateKeywordPresenter {
             return;
         }
 
-        //Add tags to list of tags
         CreateUserPresenter.keywords.clear();
         for(String tag : getView().getKeywords().getChips()){
             CreateUserPresenter.keywords.add(new Keyword(tag));
@@ -67,18 +65,16 @@ public class CreateKeywordPresenter {
             interval = "5";
         }
 
-        if(saveRecordToDatabase(interval)){
-            if(getView().getLaunchAppCheckBox().isSelected()){
-                Rectangle2D screenDim = Screen.getPrimary().getVisualBounds();
-                Launcher.switchWindow(getView(), new MainPresenter().getView(),
-                        (int) screenDim.getWidth() - 5, (int) screenDim.getHeight() - 10);
-            }
-            else {
-                System.exit(0);
-            }
+        if (!saveRecordToDatabase(interval)) {
+            return;
+        }
+        if(getView().getLaunchAppCheckBox().isSelected()){
+            Rectangle2D screenDim = Screen.getPrimary().getVisualBounds();
+            Launcher.switchWindow(getView(), new MainPresenter().getView(),
+                    (int) screenDim.getWidth() - 5, (int) screenDim.getHeight() - 10);
         }
         else {
-            return;
+            System.exit(0);
         }
     }
 
@@ -88,21 +84,19 @@ public class CreateKeywordPresenter {
                 "'" + interval + "', '" + CreateUserPresenter.officer.getAggregatorName() + "', " +
                 "'" + CreateUserPresenter.officer.getAggregatorUrl() + "');";
 
-        if(DatabaseHelper.insert_record(insertDeskOfficerSql) != 0){
-            for(Newswire newswire : CreateUserPresenter.newswires){
-                String insertNewswireSql = "INSERT INTO newswire(url) VALUES (" + "'" + newswire.getUrl() + "');";
-                DatabaseHelper.insert_record(insertNewswireSql);
-            }
-            for(Keyword keyword : CreateUserPresenter.keywords){
-                String insertKeywordSql = "INSERT INTO keyword(value) VALUES (" + "'" + keyword.getValue() + "');";
-                DatabaseHelper.insert_record(insertKeywordSql);
-            }
-            AlertMaker.showNotification("Success", "User, Newswire, and Keywords Created Successfully", AlertMaker.image_checked);
-            return true;
-        }
-        else {
+        if (DatabaseHelper.insertRecord(insertDeskOfficerSql) == 0) {
             return false;
         }
+        for(Newswire newswire : CreateUserPresenter.newswires){
+            String insertNewswireSql = "INSERT INTO newswire(url) VALUES (" + "'" + newswire.getUrl() + "');";
+            DatabaseHelper.insertRecord(insertNewswireSql);
+        }
+        for(Keyword keyword : CreateUserPresenter.keywords){
+            String insertKeywordSql = "INSERT INTO keyword(value) VALUES (" + "'" + keyword.getValue() + "');";
+            DatabaseHelper.insertRecord(insertKeywordSql);
+        }
+        AlertMaker.showNotification("Success", "User, Newswire, and Keywords Created Successfully", AlertMaker.image_checked);
+        return true;
     }
 
     private void handleBackPressed(ActionEvent event){
