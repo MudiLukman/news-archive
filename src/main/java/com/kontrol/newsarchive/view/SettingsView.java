@@ -1,7 +1,6 @@
 package com.kontrol.newsarchive.view;
 
 import com.jfoenix.controls.*;
-import com.jfoenix.effects.JFXDepthManager;
 import com.kontrol.newsarchive.presenter.LoginPresenter;
 import com.kontrol.newsarchive.util.CustomImageView;
 import javafx.geometry.Insets;

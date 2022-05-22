@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXDialogLayout;
 import com.kontrol.newsarchive.Launcher;
 import com.kontrol.newsarchive.model.Newswire;
 import com.kontrol.newsarchive.util.AlertMaker;
+import com.kontrol.newsarchive.util.UrlUtil;
 import com.kontrol.newsarchive.view.SetNewswireView;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
@@ -13,17 +14,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class SetNewswiresPresenter {
 
-    private SetNewswireView view;
+    private SetNewswireView view = new SetNewswireView();
     private double dragOffsetX;
     private double dragOffsetY;
 
     public SetNewswiresPresenter(){
-        view = new SetNewswireView();
         addDragListeners();
         addListeners();
     }
@@ -32,7 +29,7 @@ public class SetNewswiresPresenter {
         getView().getAggregatorHelp().setOnMouseClicked(this::handleAggregatorHelpClicked);
         getView().getNewswireHelp().setOnMouseClicked(this::handleNewswireHelpClicked);
         getView().getAggregatorName().setOnAction(this::handleAggregatorNameAction);
-        getView().getAggregatorUrl().setOnAction(this::handleAddregatorUrlAction);
+        getView().getAggregatorUrl().setOnAction(this::handleAddAggregatorUrlAction);
         getView().getBackButton().setOnAction(this::handleBackPressed);
         getView().getNextButton().setOnAction(this::handleNextButton);
         getView().getCancelButton().setOnAction(this::handleCancelPressed);
@@ -99,7 +96,7 @@ public class SetNewswiresPresenter {
         getView().getAggregatorUrl().requestFocus();
     }
 
-    private void handleAddregatorUrlAction(ActionEvent event){
+    private void handleAddAggregatorUrlAction(ActionEvent event){
         getView().getNewswires().requestFocus();
     }
 
@@ -112,11 +109,11 @@ public class SetNewswiresPresenter {
             AlertMaker.showNotification("Error", "You must provide a URL for aggregator", AlertMaker.image_warning);
             return;
         }
-        if(!isUrlValid(getView().getAggregatorUrl().getText().trim())){
+        if(!UrlUtil.isValid(getView().getAggregatorUrl().getText().trim())){
             AlertMaker.showNotification("Error", "Invalid Url For Aggregator", AlertMaker.image_warning);
             return;
         }
-        if(getView().getNewswires().getChips().size() == 0){
+        if(getView().getNewswires().getChips().isEmpty()){
             AlertMaker.showNotification("Error", "You did not specify any newswire source(s)", AlertMaker.image_warning);
             return;
         }
@@ -126,7 +123,7 @@ public class SetNewswiresPresenter {
         }
 
         for(String url : getView().getNewswires().getChips()){
-            if(!isUrlValid(url)){
+            if(!UrlUtil.isValid(url)){
                 getView().getNewswires().getChips().remove(url);
                 AlertMaker.showNotification("Error", "Invalid Url: " + url, AlertMaker.image_warning);
                 return;
@@ -141,17 +138,6 @@ public class SetNewswiresPresenter {
         }
 
         Launcher.switchWindow(getView(), new CreateKeywordPresenter().getView(), 600, 600);
-    }
-
-    public static boolean isUrlValid(String url) {
-        String regex = "\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
-        try {
-            Pattern pattern = Pattern.compile(regex);
-            Matcher matcher = pattern.matcher(url);
-            return matcher.matches();
-        } catch (RuntimeException e) {
-            return false;
-        }
     }
 
     public SetNewswireView getView(){

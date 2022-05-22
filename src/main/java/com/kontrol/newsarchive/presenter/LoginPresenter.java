@@ -16,13 +16,12 @@ import java.sql.SQLException;
 
 public class LoginPresenter {
 
-    private LoginView view;
+    private final LoginView view = new LoginView();
     public static String usernameOfLoggedInUser;
     private double dragOffsetX;
     private double dragOffsetY;
 
     public LoginPresenter(){
-        view = new LoginView();
         addDragListeners();
         addListeners();
     }
@@ -57,7 +56,7 @@ public class LoginPresenter {
     }
 
     private boolean fetchUserFromDb() {
-        ResultSet resultSet = DatabaseHelper.getUserNamePassword_admin();
+        ResultSet resultSet = DatabaseHelper.getUserNamePasswordAdmin();
         try {
             while (resultSet.next()){
                 if(getView().getUsernameField().getText().equals(resultSet.getString("username"))

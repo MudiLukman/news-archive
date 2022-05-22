@@ -19,13 +19,16 @@ import javafx.stage.Modality;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class HomePresenter {
 
-    private HomeView view = new HomeView();;
+    private final Logger LOGGER = Logger.getLogger(HomePresenter.class.getName());
+    private final HomeView view = new HomeView();
     public static List<String> newswires = new ArrayList<>();
     public static List<String> keywords = new ArrayList<>();
-    private ContextMenu logoutCtxMenu = new ContextMenu();
+    private final ContextMenu logoutCtxMenu = new ContextMenu();
     private String nextExtractionTime = "";
 
     public HomePresenter(){
@@ -106,8 +109,8 @@ public class HomePresenter {
                 break;
 
             }
-        }catch (SQLException e){
-            System.out.println(e);
+        }catch (SQLException ex){
+            LOGGER.log(Level.SEVERE, ex.getMessage());
         }
     }
 
@@ -123,8 +126,8 @@ public class HomePresenter {
                 String url = newswireResultSet.getString("url");
                 newswires.add(url);
             }
-        } catch (SQLException e) {
-            System.out.println("HomePresenter: initListViews(): " + e);
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage());
         }
 
         String keywordSql = "SELECT * FROM keyword";
@@ -134,8 +137,8 @@ public class HomePresenter {
                 String keyword = keywordResultSet.getString("value");
                 keywords.add(keyword);
             }
-        }catch (SQLException e){
-            System.out.println("HomePresenter: initListViews(): " + e);
+        }catch (SQLException ex){
+            LOGGER.log(Level.SEVERE, ex.getMessage());
         }
 
         for(String s : newswires){
@@ -151,10 +154,7 @@ public class HomePresenter {
 
     private void addEventHandlers() {
         getView().getNewsTodayHBox().setOnMouseClicked(event -> {
-            if(((BorderPane) getView().getCenter()).getCenter() instanceof TodaysNewsView){
-                //do nothing
-            }
-            else {
+            if (!(((BorderPane) getView().getCenter()).getCenter() instanceof TodaysNewsView)) {
                 ((BorderPane) getView().getCenter()).setCenter(new TodaysNewsPresenter().getView());
             }
         });

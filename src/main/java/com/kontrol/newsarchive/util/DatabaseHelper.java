@@ -11,9 +11,9 @@ import java.util.logging.Logger;
 
 public class DatabaseHelper {
 
-    private static Logger logger = Logger.getLogger(DatabaseHelper.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(DatabaseHelper.class.getName());
 
-    public static final String CREATE_DESK_OFFICER_TABLE = "CREATE TABLE if not exists deskofficer(username VARCHAR(512) not null, "
+    private static final String CREATE_DESK_OFFICER_TABLE = "CREATE TABLE if not exists deskofficer(username VARCHAR(512) not null, "
             + "password VARCHAR(512), intervals VARCHAR(20), aggregatorname VARCHAR(512), "
             + "aggregatorurl VARCHAR(512), constraint pk_deskofficer primary key (username));";
 
@@ -36,9 +36,9 @@ public class DatabaseHelper {
             String dbUrl = properties.getProperty("DATABASE_URL");
             String dbUser = properties.getProperty("DATABASE_USER");
             String dbPassword = properties.getProperty("DATABASE_PASSWORD");
-            logger.info("Driver Loaded");
+            LOGGER.info("Driver Loaded");
             con = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-            logger.info("Connection established");
+            LOGGER.info("Connection established");
             stmt = con.createStatement();
 
         }catch (IOException | SQLException e){
@@ -46,9 +46,9 @@ public class DatabaseHelper {
         }
     }
 
-    public static void create_table(String table_name){
+    public static void createTable(String tableName){
         try{
-            stmt.executeUpdate(table_name);
+            stmt.executeUpdate(tableName);
         }catch (SQLException e){
             Platform.runLater(() -> AlertMaker.showErrorMessage("Error", e.getMessage()));
         }catch (NullPointerException e){
@@ -59,12 +59,12 @@ public class DatabaseHelper {
         }
     }
 
-    public static void create_all_tables() {
+    public static void createAllTables() {
         connect();
-        create_table(CREATE_DESK_OFFICER_TABLE);
-        create_table(CREATE_OLD_URL_TABLE);
-        create_table(CREATE_NEWS_WIRE_TABLE);
-        create_table(CREATE_KEYWORD_TABLE);
+        createTable(CREATE_DESK_OFFICER_TABLE);
+        createTable(CREATE_OLD_URL_TABLE);
+        createTable(CREATE_NEWS_WIRE_TABLE);
+        createTable(CREATE_KEYWORD_TABLE);
         disconnect();
     }
 
@@ -79,7 +79,7 @@ public class DatabaseHelper {
         }
     }
 
-    public static ResultSet getUserNamePassword_admin() {
+    public static ResultSet getUserNamePasswordAdmin() {
         String sql="Select * from deskofficer";
         return executeQuery(sql);
     }
@@ -90,7 +90,7 @@ public class DatabaseHelper {
         try {
             rs = stmt.executeQuery(sql);
         }catch (SQLSyntaxErrorException e){
-            logger.log(Level.SEVERE, e.getMessage());
+            LOGGER.log(Level.SEVERE, e.getMessage());
         }
         catch (SQLException ex) {
             Platform.runLater(() -> AlertMaker.showErrorMessage(ex));
@@ -98,13 +98,13 @@ public class DatabaseHelper {
         return rs;
     }
 
-    public static int delete_record(String sql){
+    public static int deleteRecord(String sql){
         int val = 0;
         try {
             connect();
             val = stmt.executeUpdate(sql);
         } catch( SQLException e ) {
-            logger.log(Level.SEVERE, e.getMessage());
+            LOGGER.log(Level.SEVERE, e.getMessage());
         }
         return val;
     }
@@ -127,13 +127,13 @@ public class DatabaseHelper {
         return val;
     }
 
-    public static int insert_record(String sql) {
+    public static int insertRecord(String sql) {
         int val = 0;
         try {
             connect();
             val = stmt.executeUpdate(sql);
         } catch ( SQLException e ) {
-            logger.log(Level.SEVERE, e.getMessage());
+            LOGGER.log(Level.SEVERE, e.getMessage());
         }
         return val;
     }

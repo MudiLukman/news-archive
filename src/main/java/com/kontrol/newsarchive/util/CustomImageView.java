@@ -5,8 +5,8 @@ import javafx.scene.image.ImageView;
 
 public class CustomImageView extends ImageView {
 
-    public CustomImageView(String uri, int width, int height){
-        Image image = new Image(CustomImageView.class.getResource(uri).toExternalForm());
+    public CustomImageView(String imageUri, int width, int height){
+        Image image = new Image(CustomImageView.class.getResource(imageUri).toExternalForm());
         this.setImage(image);
         this.setFitWidth(width);
         this.setFitHeight(height);

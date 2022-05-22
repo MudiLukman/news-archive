@@ -1,8 +1,6 @@
 package com.kontrol.newsarchive.presenter;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
-import co.elastic.clients.elasticsearch._types.query_dsl.QueryBuilders;
-import co.elastic.clients.elasticsearch.core.DeleteRequest;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import com.jfoenix.controls.JFXButton;
@@ -26,15 +24,19 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import org.elasticsearch.client.RequestOptions;
-import java.io.IOException;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SearchResultPresenter {
 
-    private SearchResultView view;
-    private ElasticsearchClient client;
+    private final Executor executor = Executors.newCachedThreadPool();
+    private static final Logger LOGGER = Logger.getLogger(SearchResultPresenter.class.getName());
+    private SearchResultView view = new SearchResultView();
+    private ElasticsearchClient client = ElasticClientHelper.getConnection();
     private SearchRequest searchRequest;
     private SearchResponse searchResponse;
     //private SearchHits hits;
@@ -43,9 +45,7 @@ public class SearchResultPresenter {
     //private SearchSourceBuilder sourceBuilder;
 
     public SearchResultPresenter(String query){
-        view = new SearchResultView();
         getView().getContentAreaFlowPane().getChildren().clear();
-        client = ElasticClientHelper.getConnection();
         //searchRequest = new SearchRequest();
         //sourceBuilder = new SearchSourceBuilder();
         //sourceBuilder.query(QueryBuilders.multiMatchQuery(query, "title", "body"));
@@ -54,13 +54,11 @@ public class SearchResultPresenter {
         //sourceBuilder.size(1000);
         //sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
 
-        new Thread(this::performSearch).start();
+        performSearchAsync();
     }
 
     public SearchResultPresenter(){
-        view = new SearchResultView();
         getView().getContentAreaFlowPane().getChildren().clear();
-        client = ElasticClientHelper.getConnection();
         //searchRequest = new SearchRequest();
         //sourceBuilder = new SearchSourceBuilder();
         //sourceBuilder.query(QueryBuilders.matchAllQuery());
@@ -69,7 +67,7 @@ public class SearchResultPresenter {
         //sourceBuilder.size(1000);
         //sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
 
-        new Thread(this::performSearch).start();
+        performSearchAsync();
     }
 
     public SearchResultPresenter(String query, String field){
@@ -89,7 +87,7 @@ public class SearchResultPresenter {
         sourceBuilder.size(1000);
         sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));*/
 
-        new Thread(this::performSearch).start();
+        performSearchAsync();
     }
 
     private void displaySearchResults() {
@@ -201,7 +199,7 @@ public class SearchResultPresenter {
 
     private void deleteSearchResult(String id) {
         String sql = "DELETE FROM oldurl WHERE url='" + id + "'";
-        if(DatabaseHelper.insert_record(sql) > 0){
+        if(DatabaseHelper.insertRecord(sql) > 0){
             performDelete(id);
         }
         else {
@@ -217,6 +215,15 @@ public class SearchResultPresenter {
 
     public SearchResultView getView(){
         return view;
+    }
+
+    private void performSearchAsync() {
+        CompletableFuture<Void> searchNewsFuture = CompletableFuture.runAsync(this::performSearch, executor);
+        searchNewsFuture.whenComplete((nil, ex) -> {
+            if (ex != null) {
+                LOGGER.log(Level.SEVERE, ex.getCause().getMessage());
+            }
+        });
     }
 
     public void performSearch() {

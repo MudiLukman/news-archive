@@ -1,5 +1,7 @@
 package com.kontrol.newsarchive.model;
 
+import java.util.Objects;
+
 public class NewsContent {
 
     private String source;
@@ -43,9 +45,17 @@ public class NewsContent {
 
         NewsContent that = (NewsContent) o;
 
-        if (source != null ? !source.equals(that.source) : that.source != null) return false;
-        if (title != null ? !title.equals(that.title) : that.title != null) return false;
-        return time != null ? time.equals(that.time) : that.time == null;
+        if (!Objects.equals(source, that.source)) return false;
+        if (!Objects.equals(title, that.title)) return false;
+        return Objects.equals(time, that.time);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = source.hashCode();
+        result = 31 * result + title.hashCode();
+        result = 31 * result + time.hashCode();
+        return result;
     }
 
     @Override

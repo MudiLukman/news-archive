@@ -25,15 +25,13 @@ public class ExtractedNewsPresenter {
 
     private void handleMouseClickedEvent(MouseEvent event){
         event.consume();
-        documents.remove(getView().getRelevantDocument());
+        documents.remove(getView().getRelevantDocument().getId());
         getView().getParentPane().getFlowPane().getChildren().remove(getView());
-        System.out.println("Document:" + getView().getRelevantDocument().getOwner() + " removed.");
     }
 
     private void handleLayoutVBoxClickedEvent(MouseEvent event){
         new Launcher().getHostServices().showDocument(getView().getRelevantDocument().getOwner());
     }
-
 
     public ExtractedNewsView getView(){
         return this.view;

@@ -8,6 +8,7 @@ import com.kontrol.newsarchive.model.Document;
 import com.kontrol.newsarchive.util.AlertMaker;
 import com.kontrol.newsarchive.util.DatabaseHelper;
 import com.kontrol.newsarchive.util.ElasticClientHelper;
+import com.kontrol.newsarchive.util.UrlUtil;
 import com.kontrol.newsarchive.view.ExtractNewsView;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -45,7 +46,7 @@ public class ExtractNewsPresenter {
     private double dragOffsetY;
     private final Map<String, Document> documents = new HashMap<>();
     private final Set<String> oldUrls = new HashSet<>();
-    public final ExecutorService executor = Executors.newCachedThreadPool();
+    private final ExecutorService executor = Executors.newCachedThreadPool();
     private static final int DEFAULT_TIMEOUT = 30 * 1_000;
 
     public ExtractNewsPresenter(){
@@ -88,16 +89,16 @@ public class ExtractNewsPresenter {
     }
 
     private void saveDocumentsToInvertedIndex() {
-        for(String newsId : documents.keySet()){
+        documents.forEach((link, document) -> {
             Map<String, String> docMap = new HashMap<>();
-            docMap.put("title", documents.get(newsId).getTitle());
-            docMap.put("owner", documents.get(newsId).getOwner());
-            docMap.put("body", documents.get(newsId).getBody());
-            docMap.put("date", documents.get(newsId).getDate());
+            docMap.put("title", document.getTitle());
+            docMap.put("owner", document.getOwner());
+            docMap.put("body", document.getBody());
+            docMap.put("date", document.getDate());
 
             //IndexRequest indexRequest = new IndexRequest("newscontents", "doc", newsId).source(docMap);
             IndexRequest indexRequest = new IndexRequest.Builder()
-                    .id(newsId)
+                    .id(link)
                     .index("newscontents")
                     .document(docMap)
                     //.timeout(20s)
@@ -105,21 +106,21 @@ public class ExtractNewsPresenter {
 
             try {
                 IndexResponse indexResponse = ElasticClientHelper.getConnection().index(indexRequest);
-                LOGGER.info("Indexed: " + newsId);
+                LOGGER.info("Indexed: " + link);
             }catch (IOException ex){
                 LOGGER.log(Level.SEVERE, ex.getMessage());
             }
-        }
+        });
         LOGGER.info("Done Indexing " + documents.size() + "files");
     }
 
     private void saveUrlsToDb() {
         for(String docKey : documents.keySet()){
             String sql = "INSERT INTO oldurl(url, date) VALUES ('" + docKey + "', '" + LocalDate.now() + "');";
-            //the if statement says if i cant save it as an old url,
-            //don't index it so that when i fetch it as a
-            //news content tomorrow, i won't get error trying to index
-            if(DatabaseHelper.insert_record(sql) == 0){
+            //if I can't save it as an old url,
+            //don't index it so that when next I fetch it as a
+            //news content tomorrow, I won't get error trying to index
+            if(DatabaseHelper.insertRecord(sql) == 0){
                 documents.remove(docKey);
             }
         }
@@ -157,38 +158,33 @@ public class ExtractNewsPresenter {
                 "-fx-border-width: 5;");
 
         addBtn.setOnAction(event -> {
-            if(newSourceTxtField.getText().trim().equals("")){
-                return;
-            }
             String newsUrl = newSourceTxtField.getText().trim();
-            if(!SetNewswiresPresenter.isUrlValid(newsUrl)){
+            if(!UrlUtil.isValid(newsUrl)){
                 return;
             }
 
-            org.jsoup.nodes.Document newNewsSource = null;
             try {
-                newNewsSource = Jsoup.connect(newsUrl).timeout(DEFAULT_TIMEOUT).get();
+                Document relevantDocument = urlAsDomainDocument(newsUrl);
+                documents.put(newsUrl, relevantDocument);
+                createNodeAndDisplayOnScreen(relevantDocument);
+                addNewsPane.getScene().getWindow().hide();
             }
-            catch (IllegalArgumentException | IOException e){
-                AlertMaker.showErrorMessage(e);
-                return;
+            catch (IllegalArgumentException | IOException ex){
+                AlertMaker.showErrorMessage(ex);
+                LOGGER.log(Level.SEVERE, ex.getMessage());
             }
-
-            String title = newNewsSource.title();
-            String body = getNewsBody(newNewsSource);
-            DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
-            String formattedDate = dateFormat.format(new Date());
-
-            Document relevantDocument = new Document(newsUrl, title, newsUrl, body, formattedDate);
-            documents.put(newsUrl, relevantDocument);
-
-            createNodeAndDisplayOnScreen(relevantDocument);
-
-            addNewsPane.getScene().getWindow().hide();
-
         });
         closeBtn.setOnAction(event -> addNewsPane.getScene().getWindow().hide());
         Launcher.loadWindow("Add New Source", Modality.APPLICATION_MODAL, addNewsPane, 500, 120);
+    }
+
+    private Document urlAsDomainDocument(String url) throws IOException {
+        org.jsoup.nodes.Document newNewsSource = Jsoup.connect(url).timeout(DEFAULT_TIMEOUT).get();
+        String title = newNewsSource.title();
+        String body = getNewsBody(newNewsSource);
+        DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
+        String formattedDate = dateFormat.format(new Date());
+        return new Document(url, title, url, body, formattedDate);
     }
 
     private void handleCloseClicked(ActionEvent event){
@@ -197,9 +193,8 @@ public class ExtractNewsPresenter {
 
     private void startExtraction() {
         HomePresenter.newswires.forEach(newswire -> {
-            CompletableFuture<Void> extractionFuture = CompletableFuture.runAsync(() -> {
-                startExtraction(newswire);
-            }, executor);
+            CompletableFuture<Void> extractionFuture = CompletableFuture.runAsync(
+                    () -> startExtraction(newswire), executor);
 
             extractionFuture.thenRunAsync(this::hideProgressIndicatorPane, executor);
 
@@ -219,8 +214,7 @@ public class ExtractNewsPresenter {
     }
 
     private void startExtraction(String startAddress) {
-        org.jsoup.nodes.Document startPage = toDocument(startAddress);
-
+        org.jsoup.nodes.Document startPage = toJsoupDocument(startAddress);
         Elements links = getLinksAsElements(startPage);
 
         List<String> unTraversedLinks = getLinksFromElements(links);
@@ -228,17 +222,11 @@ public class ExtractNewsPresenter {
 
         unTraversedLinks.forEach(link -> {
             try {
-                org.jsoup.nodes.Document newsContent = Jsoup.connect(link).timeout(DEFAULT_TIMEOUT).get();
-                String title = newsContent.title();
-                String body = getNewsBody(newsContent);
-                DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
-                String formattedDate = dateFormat.format(new Date());
-
-                Document relevantDocument = new Document(link, title, startAddress, body, formattedDate);
+                Document document = urlAsDomainDocument(link);
                 HomePresenter.keywords.forEach(keyword -> {
-                    if(title.toLowerCase().contains(keyword.toLowerCase())){
-                        documents.put(link, relevantDocument);
-                        createNodeAndDisplayOnScreen(relevantDocument);
+                    if(document.getTitle().toLowerCase().contains(keyword.toLowerCase())){
+                        documents.put(link, document);
+                        createNodeAndDisplayOnScreen(document);
                         LOGGER.info(String.format("Archive: %s matches %s", link, keyword));
                     }
                 });
@@ -248,7 +236,7 @@ public class ExtractNewsPresenter {
         });
     }
 
-    private org.jsoup.nodes.Document toDocument(String startAddress) {
+    private org.jsoup.nodes.Document toJsoupDocument(String startAddress) {
         try {
             org.jsoup.nodes.Document doc = Jsoup.connect(startAddress).timeout(DEFAULT_TIMEOUT).get();
             LOGGER.info("Archive: Connected to " + startAddress);

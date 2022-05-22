@@ -8,12 +8,11 @@ import javafx.stage.Stage;
 
 public class MainPresenter {
 
-    private MainView view;
+    private MainView view = new MainView();
     private double dragOffsetX;
     private double dragOffsetY;
 
     public MainPresenter(){
-        view = new MainView();
         addDragListeners();
         addToolbarIconClickedListener();
     }
