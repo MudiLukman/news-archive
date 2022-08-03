@@ -15,11 +15,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.net.UnknownHostException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -30,157 +28,115 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class TodaysNewsPresenter {
 
-    private Executor executor = Executors.newCachedThreadPool();
-    private Logger logger = Logger.getLogger(TodaysNewsPresenter.class.getName());
-    private TodaysNewsView view;
+    private final Logger LOGGER = Logger.getLogger(TodaysNewsPresenter.class.getName());
+    private final TodaysNewsView view = new TodaysNewsView();
     private String aggregatorUrl = "";
-    private List<String> unTraversedLinks;
-    private List<String> relevantLinks;
-    private List<String> traversedLinks;
-    private List<NewsContent> listOfTodaysNews;
+    private List<String> unTraversedLinks = new ArrayList<>();
+    private final List<String> relevantLinks = new ArrayList<>();
+    private final List<NewsContent> listOfTodaysNews = new ArrayList<>();
+    private static final int DEFAULT_TIMEOUT = 30 * 1000;
 
     public TodaysNewsPresenter(){
-        view = new TodaysNewsView();
         setAggregatorHomePage();
-        unTraversedLinks = new ArrayList<>();
-        relevantLinks = new ArrayList<>();
-        traversedLinks = new ArrayList<>();
-        listOfTodaysNews = new ArrayList<>();
-        CompletableFuture<Void> newsHighlightsFuture = CompletableFuture.runAsync(this::fetchNewsFromWeb, executor);
+        final Executor executor = Executors.newCachedThreadPool();
+        CompletableFuture<Void> newsHighlightsFuture = CompletableFuture.runAsync(this::fetchNews, executor);
         newsHighlightsFuture.whenComplete((result, ex) -> {
             if (ex != null) {
-                logger.log(Level.SEVERE, "Error while fetching daily highlights {}", ex.getMessage());
+                LOGGER.log(Level.SEVERE, "Error while fetching daily highlights {}", ex.getMessage());
             }
         });
     }
 
-    private void fetchNewsFromWeb() {
-        Document doc = null;
+    private void fetchNews() {
         try {
-            doc = Jsoup.connect(aggregatorUrl).timeout(30 * 1000).get();
+            Document doc = Jsoup.connect(aggregatorUrl).timeout(DEFAULT_TIMEOUT).get();
             unTraversedLinks.add(aggregatorUrl);
-            logger.info("Connected to " + aggregatorUrl);
-        }
-        catch (IllegalArgumentException e){
+            Set<String> subLinks = getSubLinks(doc);
+            unTraversedLinks.addAll(subLinks);
+            fetchNextSetOfLinks();
+        } catch (IllegalArgumentException | IOException ex){
             Platform.runLater(()-> {
-                AlertMaker.showNotification("Error", aggregatorUrl + " is not a valid URL", AlertMaker.image_cross);
-            });
-        }
-        catch (UnknownHostException e){
-            Platform.runLater(()-> {
-                AlertMaker.showNotification("Error", "Could not connect to " + e.getMessage(),
+                AlertMaker.showNotification("Error", "Could not connect to " + aggregatorUrl,
                         AlertMaker.image_cross);
                 getView().getProgressIndicator().setVisible(false);
             });
-            return;
+            LOGGER.log(Level.SEVERE, ex.getMessage());
         }
-        catch (IOException e) {
-            Platform.runLater(()-> {
-                AlertMaker.showErrorMessage(e);
-                getView().getProgressIndicator().setVisible(false);
-            });
-            return;
+    }
+
+    private void fetchNextSetOfLinks() {
+        if(unTraversedLinks.size() > 1_000){
+            unTraversedLinks = unTraversedLinks.subList(0, 1_000);
         }
-
-        unTraversedLinks.addAll(getSubLinks(doc));
-
-        //fetch next set of link
-        for(int i = 0; i < unTraversedLinks.size(); i++){
-            if(unTraversedLinks.size() >= 1000){
-                break;
-            }
-            String link = unTraversedLinks.get(i);
-            Document nextLink = null;
+        unTraversedLinks.forEach(link -> {
             try {
-                nextLink = Jsoup.connect(link).timeout(30 * 1000).get();
-                logger.info("Connected to " + i + " of " + unTraversedLinks.size() + ": inner-link:" + link);
+                Document nextLink = Jsoup.connect(link).timeout(DEFAULT_TIMEOUT).get();
+                Set<String> subLinks = getSubLinks(nextLink);
+                unTraversedLinks.addAll(subLinks);
+                LOGGER.info("Connected to inner-link:" + link);
             }
             catch (IllegalArgumentException | IOException ex) {
-                logger.log(Level.SEVERE, String.format("Could not connect to inner-link: %s error: %s", link, ex.getMessage()));
-                continue;
+                LOGGER.log(Level.SEVERE, String.format("Could not connect to inner-link: %s error: %s", link, ex.getMessage()));
             }
-            unTraversedLinks.addAll(getSubLinks(nextLink));
-        }
+        });
 
         relevantLinks.addAll(unTraversedLinks);
         unTraversedLinks.clear();
-
         relevantLinks.removeIf(link -> link.contains(aggregatorUrl));
+        checkPageContentsRelevance();
 
-        logger.info("Total Number of relevant Links: " + relevantLinks.size());
-
-        //check page content to determine relevance
-        Document newsContent = null;
-        for(int l = 0; l < relevantLinks.size(); l++){
-            String newsUrl = relevantLinks.get(l);
-            if(traversedLinks.contains(newsUrl)){
-                relevantLinks.remove(newsUrl);
-                continue;
-            }
-            try {
-                newsContent = Jsoup.connect(newsUrl).timeout(15 * 1000).get();
-            } catch (IllegalArgumentException | IOException ex) {
-                logger.log(Level.SEVERE, String.format("Connection timed-out: %s error: %s", newsUrl, ex.getMessage()));
-                continue;
-            }
-            finally {
-                relevantLinks.remove(newsUrl);
-                traversedLinks.add(newsUrl);
-            }
-
-            String title = newsContent.title();
-            DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
-            String formattedDate = dateFormat.format(new Date());
-
-            NewsContent relevantNews = new NewsContent(newsUrl, title, formattedDate);
-            if(!listOfTodaysNews.contains(relevantNews)){
-                listOfTodaysNews.add(relevantNews);
-                createNodeAndDisplayOnScreen(relevantNews);
-                logger.info("Found " + listOfTodaysNews.size() + " today's news");
-            }
-
-            logger.info("Walked through " + l + " of " + relevantLinks.size() + ": " + newsUrl);
-        }
-
-        logger.info("Total Number of unique links: " + relevantLinks.size());
-        logger.info("Total number Of Today's news: " + listOfTodaysNews.size());
-
-        Platform.runLater(()-> {
-            getView().getProgressIndicator().setVisible(false);
-        });
+        Platform.runLater(()-> getView().getProgressIndicator().setVisible(false));
 
         if(listOfTodaysNews.isEmpty()){
-            Label noNewsLabel = new Label("No news content for today");
-            noNewsLabel.setFont(new Font(24));
-            noNewsLabel.setStyle("-fx-font-weight: bold;");
-            Platform.runLater(()->{
-                getView().getStackPane().getChildren().clear();
-                getView().getStackPane().getChildren().add(noNewsLabel);
-            });
+            handleNoDailyNews();
         }
+    }
 
+    private void checkPageContentsRelevance() {
+        relevantLinks.forEach(newsUrl -> {
+            try {
+                Document newsContent = Jsoup.connect(newsUrl).timeout(DEFAULT_TIMEOUT).get();
+                relevantLinks.remove(newsUrl);
+                String title = newsContent.title();
+                DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
+                String formattedDate = dateFormat.format(new Date());
+
+                NewsContent relevantNews = new NewsContent(newsUrl, title, formattedDate);
+                if(!listOfTodaysNews.contains(relevantNews)){
+                    listOfTodaysNews.add(relevantNews);
+                    createNodeAndDisplayOnScreen(relevantNews);
+                }
+            } catch (IllegalArgumentException | IOException ex) {
+                LOGGER.log(Level.SEVERE, String.format("Connection timed-out: %s error: %s", newsUrl, ex.getMessage()));
+            }
+        });
+    }
+
+    private void handleNoDailyNews() {
+        Label noNewsLabel = new Label("No news content for today");
+        noNewsLabel.setFont(new Font(24));
+        noNewsLabel.setStyle("-fx-font-weight: bold;");
+        Platform.runLater(()->{
+            getView().getStackPane().getChildren().clear();
+            getView().getStackPane().getChildren().add(noNewsLabel);
+        });
     }
 
     private Set<String> getSubLinks(Document doc){
-        HashSet<String> setOfLinks = new HashSet<>();
-
-        Elements links = null;
+        Set<String> setOfLinks ;
         try {
-            links = doc.select("a[href]");
+            Elements links = doc.select("a[href]");
+            setOfLinks = links.stream()
+                    .map(link -> link.attr("abs:href"))
+                    .filter(link -> !link.contains("#"))
+                    .collect(Collectors.toSet());
         }catch (NullPointerException e){
             return new HashSet<>();
         }
-        for (Element e : links) {
-            String link = e.attr("abs:href");
-            if (link.contains("#")) {
-                continue;
-            }
-            setOfLinks.add(link);
-        }
-
         return setOfLinks;
     }
 
@@ -208,13 +164,9 @@ public class TodaysNewsPresenter {
         layoutVBox.setPadding(new Insets(5));
         HBox sourceHBox = new HBox(5, webLogo, sourceLbl);
         layoutVBox.getChildren().addAll(sourceHBox, titleLbl, verticalSpace, new HBox(horizontalSpace, timeLbl));
-        layoutVBox.setOnMouseClicked((event)-> {
-            new Launcher().getHostServices().showDocument(newsContent.getSource());
-            System.gc();
-        });
-        Platform.runLater(()-> {
-            getView().getContentAreaFlowPane().getChildren().add(pane);
-        });
+        layoutVBox.setOnMouseClicked(event -> new Launcher()
+                .getHostServices().showDocument(newsContent.getSource()));
+        Platform.runLater(()-> getView().getContentAreaFlowPane().getChildren().add(pane));
 
     }
 
@@ -223,24 +175,17 @@ public class TodaysNewsPresenter {
     }
 
     public void setAggregatorHomePage() {
-        String aggregatorSQL = "";
-        if(CreateUserPresenter.officer == null){
-            aggregatorSQL = "SELECT * FROM deskofficer WHERE username='" + LoginPresenter.usernameOfLoggedInUser + "'";
-        }
-        else {
-            aggregatorSQL = "SELECT * FROM deskofficer WHERE username='" + CreateUserPresenter.officer.getUsername() + "'";
-        }
+        String aggregatorSQL = "SELECT * FROM deskofficer WHERE username='" + LoginPresenter.usernameOfLoggedInUser + "'";
         ResultSet aggregatorResultSet = DatabaseHelper.executeQuery(aggregatorSQL);
         try {
             while(aggregatorResultSet.next()){
                 aggregatorUrl = aggregatorResultSet.getString("aggregatorurl");
                 String aggregatorName = aggregatorResultSet.getString("aggregatorname");
-                Platform.runLater(()-> {
-                    getView().getTodaysNewsHeader().setText(getView().getTodaysNewsHeader().getText() + " Source: " + aggregatorName);
-                });
+                Platform.runLater(()-> getView()
+                        .getTodaysNewsHeader().setText(getView().getTodaysNewsHeader().getText() + " Source: " + aggregatorName));
             }
-        }catch (SQLException e){
-            System.out.println("TodaysNewsPresenter: setAggregatorHomePage: " + e);
+        }catch (SQLException ex){
+            LOGGER.log(Level.SEVERE, ex.getMessage());
         }
     }
 

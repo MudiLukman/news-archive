@@ -1,12 +1,13 @@
 package com.kontrol.newsarchive.model;
 
-import javafx.scene.image.Image;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DeskOfficer {
 
+    private static final Logger LOGGER = Logger.getLogger(DeskOfficer.class.getName());
     private String username;
     private String password;
     private String intervals;
@@ -66,17 +67,18 @@ public class DeskOfficer {
     }
 
     public static String sha1(String input){
-        MessageDigest mDigest = null;
         try {
-            mDigest = MessageDigest.getInstance("SHA1");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            MessageDigest mDigest = MessageDigest.getInstance("SHA1");
+            byte[] result = mDigest.digest(input.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for (byte b : result) {
+                sb.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage());
+            throw new IllegalStateException("Unable to create message digest");
         }
-        byte[] result = mDigest.digest(input.getBytes());
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < result.length; i++)
-            sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
-        return sb.toString();
     }
 
     @Override

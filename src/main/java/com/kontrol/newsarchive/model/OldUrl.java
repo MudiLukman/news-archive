@@ -1,16 +1,9 @@
 package com.kontrol.newsarchive.model;
 
-import java.time.LocalDate;
-
 public class OldUrl {
 
     private String url;
     private String date;
-
-    public OldUrl(){
-        url = "https://http://localhost/phpmyadmin";
-        date = "19th January, 2019";
-    }
 
     public OldUrl(String url, String date){
         this.url = url;

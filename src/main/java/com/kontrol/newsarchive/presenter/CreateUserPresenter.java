@@ -14,86 +14,90 @@ import java.util.List;
 
 public class CreateUserPresenter {
 
-    private CreateUserView view;
+    private final CreateUserView view = new CreateUserView();
     private double dragOffsetX;
     private double dragOffsetY;
 
-    public static DeskOfficer officer;
-    public static List<Newswire> newswires;
-    public static List<Keyword> keywords;
+    public static final DeskOfficer officer = new DeskOfficer();
+    public static final List<Newswire> newswires = new ArrayList<>();
+    public static final List<Keyword> keywords = new ArrayList<>();
 
     public CreateUserPresenter(){
-        view = new CreateUserView();
-        officer = new DeskOfficer();
-        newswires = new ArrayList<>();
-        keywords = new ArrayList<>();
         addListeners();
         addDragListeners();
     }
 
     private void addListeners() {
-        getView().getUsernameField().setOnAction((e)-> getView().getPasswordField().requestFocus());
-        getView().getPasswordField().setOnAction((e)-> getView().getConfirmPasswordField().requestFocus());
-        getView().getConfirmPasswordField().setOnAction((e)-> handleNextClicked());
-        getView().getNextBtn().setOnAction((e)-> handleNextClicked());
-        getView().getCancelBtn().setOnAction((e)-> System.exit(0));
+        getView().getUsernameField().setOnAction(e -> getView().getPasswordField().requestFocus());
+        getView().getPasswordField().setOnAction(e -> getView().getConfirmPasswordField().requestFocus());
+        getView().getConfirmPasswordField().setOnAction(e -> handleNextClicked());
+        getView().getNextBtn().setOnAction(e -> handleNextClicked());
+        getView().getCancelBtn().setOnAction(e -> System.exit(0));
     }
 
     private void handleNextClicked() {
-        if(validateInput()){
-            officer.setUsername(getView().getUsernameField().getText());
-            officer.setPassword(getView().getPasswordField().getText());
-            Launcher.switchWindow(getView(), new SetNewswiresPresenter().getView(), 600, 650);
+        if(!validateInput()){
+          return;
         }
+        officer.setUsername(getView().getUsernameField().getText());
+        officer.setPassword(getView().getPasswordField().getText());
+        Launcher.switchWindow(getView(), new SetNewswiresPresenter().getView(), 600, 650);
     }
 
     private boolean validateInput() {
-        String usernameText = getView().getUsernameField().getText();
-        String passwordText = getView().getPasswordField().getText();
+        String username = getView().getUsernameField().getText();
+        String password = getView().getPasswordField().getText();
+        String confirmPassword = getView().getConfirmPasswordField().getText();
 
-        if(usernameText.trim().equals("")){
+        return isValidUsername(username) && isValidPassword(password, confirmPassword);
+    }
+
+    private boolean isValidUsername(String username) {
+        if(username.trim().equals("")){
             AlertMaker.showNotification("Input Error", "No value was entered for username", AlertMaker.image_cross);
             return false;
         }
-        if(passwordText.trim().equals("")){
-            AlertMaker.showNotification("Input Error", "No value was entered for password", AlertMaker.image_cross);
-            return false;
-        }
-        if(passwordText.compareTo(getView().getConfirmPasswordField().getText().trim()) != 0){
-            AlertMaker.showNotification("Input Error", "Both passwords do not match", AlertMaker.image_cross);
-            return false;
-        }
-        if(usernameText.length() <= 3){
+
+        if(username.length() <= 3){
             AlertMaker.showNotification("Alert", "Username is too short (4 characters at least)", AlertMaker.image_warning);
             return false;
         }
-        if(passwordText.length() <= 7){
+        return true;
+    }
+
+    private boolean isValidPassword(String password, String confirmPassword) {
+        if(password.trim().equals("")){
+            AlertMaker.showNotification("Input Error", "No value was entered for password", AlertMaker.image_cross);
+            return false;
+        }
+
+        if(!password.equals(confirmPassword)){
+            AlertMaker.showNotification("Input Error", "Both passwords do not match", AlertMaker.image_cross);
+            return false;
+        }
+
+        if(password.length() < 8){
             AlertMaker.showNotification("Alert", "Password is too short (8 characters at least)", AlertMaker.image_warning);
             return false;
         }
 
         boolean hasLetter = false;
         boolean hasDigit = false;
-        boolean hasSymbol = false;
-        for(int i = 0; i < passwordText.length(); i++){
-            if(Character.isLetter(passwordText.charAt(i))){
+        for(int i = 0; i < password.length(); i++){
+            if(Character.isLetter(password.charAt(i))){
                 hasLetter = true;
             }
-            else if(Character.isDigit(passwordText.charAt(i))){
+            else if(Character.isDigit(password.charAt(i))){
                 hasDigit = true;
-            }
-            else {
-                hasSymbol = true;
             }
         }
 
-        if(!hasLetter || !hasDigit || !hasSymbol){
+        if(!hasLetter || !hasDigit){
             AlertMaker.showNotification(
-                    "Warning", "Password must contain an alphabet, a number, and a special character",
+                    "Warning", "Password must contain an alphabet, and a number",
                     AlertMaker.image_warning);
             return false;
         }
-
         return true;
     }
 

@@ -10,20 +10,18 @@ import javafx.scene.text.TextAlignment;
 
 public class ExtractedNewsView extends StackPane {
 
-    private Document relevantDocument;
+    private final Document relevantDocument;
+    private final VBox layoutVBox = new VBox(5);
+    private final CustomImageView webLogo = new CustomImageView("/globe.png", 20, 20);
+    private final Label sourceLbl;
+    private final CustomImageView minusBtn = new CustomImageView("/minus.png", 16, 14);
+    private final Label titleLbl;
+    private final Label timeLbl;
 
-    private VBox layoutVBox;
-    private CustomImageView webLogo = new CustomImageView("/globe.png", 20, 20);
-    private Label sourceLbl;
-    private CustomImageView minusBtn = new CustomImageView("/minus.png", 16, 14);
-    private Label titleLbl;
-    private Label timeLbl;
-
-    private ExtractNewsView parentPane;
+    private final ExtractNewsView parentPane;
 
     public ExtractedNewsView(Document relevantDocument, ExtractNewsView parentPane){
         this.relevantDocument = relevantDocument;
-        layoutVBox = new VBox(5);
         sourceLbl = new Label(this.relevantDocument.getOwner());
         titleLbl = new Label(this.relevantDocument.getTitle());
         timeLbl = new Label(this.relevantDocument.getDate());
