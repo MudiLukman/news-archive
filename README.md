@@ -1,22 +1,21 @@
 
-# News Archive    [![Badge License]][License]  [![Badge FrontEnd]][JavaFX]
+# News Archive   [![Badge License]][License]   [![Badge FrontEnd]][JavaFX]
 
 *A news extraction & archival program.*
 
 <br>
+<br>
 
 <div align = center>
 
----
+![Badge Note]
 
-![Note]
+**Elasticsearch** has for now been disabled due to the migration <br>
+from ***High Level Rest Client Library*** to ***Java API Client***.
 
-**Elasticsearch** has for now been disabled due to the migration <br>from ***High Level Rest Client Library*** to ***Java API Client***.
-
----
-  
 </div>
 
+<br>
 <br>
 
 ## Java 9+
@@ -32,12 +31,19 @@ around breaking changes ( Modules ).
 --add-modules javafx.controls
 ```
 
-<!----------------------------------------------------------------------------->
+<br>
 
-[Badge License]: https://img.shields.io/badge/License-Unknown-808080.svg?style=for-the-badge
-[Badge FrontEnd]: https://img.shields.io/badge/FrontEnd-JavaFX-007396.svg?style=for-the-badge
-[Note]: https://img.shields.io/badge/Note-red?style=for-the-badge
+
+<!----------------------------------------------------------------------------->
 
 [JavaFX]: https://openjfx.io/
 
 [License]: #
+
+
+<!----------------------------------[ Badges ]--------------------------------->
+
+[Badge FrontEnd]: https://img.shields.io/badge/FrontEnd-JavaFX-00556f.svg?style=for-the-badge&labelColor=007396
+[Badge License]: https://img.shields.io/badge/License-Unknown-808080.svg?style=for-the-badge
+[Badge Note]: https://img.shields.io/badge/Note-red?style=for-the-badge
+
